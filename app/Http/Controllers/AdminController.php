@@ -18,45 +18,7 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        $intimation_data = Application::where('is_accepted', 1)->where('application_type', 6);
-        $intimation = [
-            'total_applications' => $intimation_data->count(),
-            'completed_applications' => $intimation_data->where('application_status', 1)->count(),
-            'in_progress_applications' => $intimation_data->where('application_status', 7)->orWhere('is_accepted', 0)->count(),
-            'suspended_applications' => $intimation_data->where('application_status', 2)->count(),
-            'died_applications' => $intimation_data->where('application_status', 3)->count(),
-            'removed_applications' => $intimation_data->where('application_status', 4)->count(),
-            'transfer_in_applications' => $intimation_data->where('application_status', 5)->count(),
-            'transfer_out_applications' => $intimation_data->where('application_status', 6)->count(),
-            'rejected_applications' => $intimation_data->where('application_status', 0)->count(),
-        ];
-
-        $lower_court_data = LowerCourt::where('is_excel', 0)->where('is_final_submitted', 1);
-        $lower_court = [
-            'total_applications' => $lower_court_data->count(),
-            'completed_applications' => $lower_court_data->where('app_status', 1)->count(),
-            'in_progress_applications' => $lower_court_data->where('app_status', 7)->count(),
-            'suspended_applications' => $lower_court_data->where('app_status', 2)->count(),
-            'died_applications' => $lower_court_data->where('app_status', 3)->count(),
-            'removed_applications' => $lower_court_data->where('app_status', 4)->count(),
-            'transfer_in_applications' => $lower_court_data->where('app_status', 5)->count(),
-            'transfer_out_applications' => $lower_court_data->where('app_status', 6)->count(),
-            'rejected_applications' => $lower_court_data->where('app_status', 0)->count(),
-        ];
-
-
-        $gc_users_data = User::query();
-        $gc_users = [
-            'gc_approved_users' => $gc_users_data->where('gc_approved_by', Auth::guard('admin')->user()->id)->where('gc_status', 'approved')->count(),
-            'gc_disapproved_users' => $gc_users_data->where('gc_approved_by', Auth::guard('admin')->user()->id)->where('gc_status', 'disapproved')->count(),
-        ];
-
-        $my_applications = [
-            'intimation_applications' => $intimation_data->where('submitted_by', Auth::guard('admin')->user()->id)->count(),
-            'lower_court_applications' => $lower_court_data->where('created_by', Auth::guard('admin')->user()->id)->count(),
-        ];
-
-        return view('admin.dashboard', compact('intimation', 'lower_court', 'my_applications', 'gc_users'));
+        return view('admin.dashboard');
     }
 
     public function login(Request $request)

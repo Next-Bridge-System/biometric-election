@@ -5,88 +5,22 @@
 <!-- Main content -->
 <section class="content">
     <div class="container">
-
-        <!-- APPLICATIONS -->
-        @if (Auth::guard('admin')->user()->id == 1)
-        <!-- INTIMATION APPLICATIONS -->
         <fieldset class="border p-4 mb-4">
-            <legend class="w-auto">Intimation Applications</legend>
+            <legend class="w-auto">Biometric Verification</legend>
             <div class="row">
-                @foreach ($intimation as $key => $item)
                 <div class="col-md-3">
                     <div class="small-box bg-success">
                         <div class="inner">
-                            <h3>{{$item}}</h3>
-                            <p class="text-capitalize">{{clean($key)}}</p>
+                            <h3>100</h3>
+                            <p class="text-capitalize">Total Users</p>
                         </div>
                         <div class="icon">
                             <i class="ion ion-bag"></i>
                         </div>
                     </div>
                 </div>
-                @endforeach
             </div>
         </fieldset>
-
-        <fieldset class="border p-4 mb-4">
-            <legend class="w-auto">Lower Court Applications</legend>
-            <div class="row">
-                @foreach ($lower_court as $key => $item)
-                <div class="col-md-3">
-                    <div class="small-box bg-success">
-                        <div class="inner">
-                            <h3>{{$item}}</h3>
-                            <p class="text-capitalize">{{clean($key)}}</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-bag"></i>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </fieldset>
-        @endif
-
-        <!-- MY APPLICATIONS -->
-        <fieldset class="border p-4 mb-4">
-            <legend class="w-auto">My Applications</legend>
-            <div class="row">
-                @foreach ($my_applications as $key => $item)
-                <div class="col-md-3">
-                    <div class="small-box bg-success">
-                        <div class="inner">
-                            <h3>{{$item}}</h3>
-                            <p class="text-capitalize">{{clean($key)}}</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-bag"></i>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </fieldset>
-
-        <fieldset class="border p-4 mb-4">
-            <legend class="w-auto">Data Verification</legend>
-            <div class="row">
-                @foreach ($gc_users as $key => $item)
-                <div class="col-md-3">
-                    <div class="small-box bg-success">
-                        <div class="inner">
-                            <h3>{{$item}}</h3>
-                            <p class="text-capitalize">{{clean($key)}}</p>
-                        </div>
-                        <div class="icon">
-                            <i class="ion ion-bag"></i>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </fieldset>
-
     </div>
 </section>
 

@@ -1,5 +1,5 @@
 <section class="text-center">
     <div class="container">
-        <img src="{{asset('public/admin/images/pbc_qsb.png')}}" style="width:230px" class="mt-4 mb-4">
+        <img src="{{asset('public/admin/images/logo.png')}}" class="w-50">
     </div>
 </section>
