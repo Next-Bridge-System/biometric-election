@@ -5,6 +5,8 @@ use App\Http\Controllers\SignatureController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+require __DIR__ . '/election.php';
+
 Route::get('/print-test', 'EpsonController@printTest')->name('epson.printTest');
 
 Route::post('/uploadCameraImage', 'BiometricController@uploadCameraImage')->name('biometrics.uploadCameraImage');

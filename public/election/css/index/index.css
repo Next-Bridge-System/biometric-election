@@ -1,0 +1,190 @@
+/* ensure full-screen w/o scroll */
+html, body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  overflow: hidden;
+  background-color: #f0f5fc;
+}
+
+/* card styling */
+.stepper-card {
+
+  max-width: 1000px;
+   min-width: 700px;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* stepper circles and lines */
+.stepper .step {
+  width: 35px;
+  height: 35px;
+  border: 2px solid #007f4e;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #007f4e;
+  background-color: #fff;
+  z-index: 2;
+}
+.stepper .step.active {
+  background-color: #007f4e;
+  color: #fff;
+}
+.stepper .line {
+  flex-grow: 1;
+  height: 2px;
+  background-color: #007f4e;
+  margin: 0 5px;
+  z-index: 1;
+}
+
+/* green button */
+.btn-green {
+  background-color: #007f4e;
+  color: #fff;
+  border: none;
+  padding-block: 5px;
+  font-size: 1.7rem;
+}
+.btn-green:hover {
+  background-color: #006440;
+    color: #fff;
+}
+
+
+
+/* Container for printer + receipt */
+.receipt-wrapper {
+    overflow-y: hidden;
+  position: relative;
+  padding: 10px;
+  width: 240px;
+  margin-top: 0px;
+}
+
+/* The “printer head” above the paper */
+.receipt-printer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: linear-gradient(to bottom, #444, #111);
+  border-radius: 6px;
+  z-index: 2;
+}
+.receipt-printer::after {
+  content: '';
+  position: absolute;
+  bottom: 10px;
+  left: 15px;
+  right: 15px;
+  border-bottom: 2px dashed rgba(255,255,255,0.6);
+}
+@keyframes slideIn {
+  from { top: -300px; }
+  to   { top:   0; }
+}
+/* The “paper” */
+.receipt-card {
+  position: relative;
+  background: #fff;
+  padding: 1.5rem 1rem 2.5rem;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    margin-top: 20px;
+  /* scalloped bottom edge */
+  overflow: hidden;
+   animation: slideIn 1.7s ease-out forwards;
+}
+.receipt-card::after {
+  content: '';
+  display: block;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background: #fff;
+  background-image: radial-gradient(circle at 50% 0, #fff 10px, transparent 10px);
+  background-size: 20px 20px;
+}
+
+/* circle for the check mark */
+.btn-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  line-height: 60px;
+  display: inline-block;
+}
+
+/* generic deco settings */
+.deco {
+  position: absolute;
+  z-index: 0;               /* behind the form */
+  opacity: 1;             /* subtle */
+  pointer-events: none;     /* clicks pass through */
+}
+
+/* Top-left logo */
+/* Top-center logo */
+.deco-logo {
+  top: 1rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px;
+  position: absolute;
+}
+
+
+/* Another top-left/background piece (if different image) */
+.deco-tl {
+  top: 2rem;
+  left: 0rem;
+  width: 400px;
+}
+
+/* bottom-right decoration */
+.deco-br {
+  bottom: 1rem;
+  right: 0rem;
+  width: 400px;
+}
+
+.next-btn,.back-btn{
+  font-size: 1.5rem;
+}
+
+
+.candidate-grid {
+  display: grid;
+  grid-gap: 20px;
+}
+
+.candidate-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  text-align: center;
+  background-color: #fff;
+  transition: all 0.2s ease;
+}
+.candidate-card:hover {
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+  cursor: pointer;
+}
+.candidate-card.selected {
+    border: none;
+  background-color: #19965b;
+  color: #fff;
+  border-color: #007f4e;
+}
+

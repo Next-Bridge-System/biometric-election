@@ -1,0 +1,20 @@
+#category-vote-table td {
+  vertical-align: middle;
+  padding: 5px;
+  cursor: pointer;
+}
+
+#category-vote-table img {
+  max-height: 60px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  transition: 0.2s ease;
+}
+
+#category-vote-table img.selected {
+  border: 3px solid #007f4e;
+   border-radius: 6px;
+  position: relative;
+ 
+}
+
