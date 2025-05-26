@@ -1,0 +1,201 @@
+.required-star {
+    color: #f00;
+}
+
+.span-red {
+    color: #f00;
+}
+
+.fas.fa-star {
+    color: #ffd700;
+}
+
+select[disabled] {
+    cursor: not-allowed !important;
+}
+
+.timeline-steps {
+    margin-bottom: 40px;
+    padding-top: 115px;
+    justify-content: center;
+}
+
+.timeline-steps .steps-holder:first-child .steps-content:before {
+    width: 50%;
+    right: 0;
+    left: inherit;
+}
+
+.timeline-steps .steps-holder:last-child .steps-content:before {
+    width: 50%;
+}
+
+.timeline-steps .steps-holder {
+    position: relative;
+    width: 20%;
+}
+
+.timeline-steps .steps-holder .steps-content h5 {
+    font-size: 22px;
+    color: green;
+    /* font-family: extrabold; */
+    text-align: center;
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9;
+}
+
+.timeline-steps .steps-holder .steps-content h6 {
+    font-size: 16px;
+    color: green;
+    /* font-family: opensanssemibold; */
+    text-align: center;
+}
+
+.timeline-steps .steps-holder .steps-content:before {
+    content: "";
+    position: absolute;
+    top: -40px;
+    left: 0;
+    height: 10px;
+    width: 100%;
+    background: green;
+}
+
+.timeline-steps .steps-holder .steps-content:after {
+    content: " ";
+    position: absolute;
+    top: -65px;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 54px;
+    width: 54px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid green;
+}
+
+.timeline-steps .steps-holder .steps-content.active:after {
+    background: green;
+}
+
+.timeline-steps .steps-holder .steps-content.active h5 {
+    color: #fff;
+}
+
+/* .filepond--root,
+.filepond--root .filepond--drop-label {
+    height: 295px;
+} */
+
+.filepond--credits {
+    display: none;
+}
+
+fieldset.border {
+    border: 2px solid #17af23 !important;
+    border-radius: 5px !important;
+}
+
+fieldset legend {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    margin-bottom: 0.5rem;
+    font-size: 18px;
+    line-height: inherit;
+    color: inherit;
+    white-space: normal;
+    color: green;
+    font-weight: 600;
+}
+
+.card-success:not(.card-outline)>.card-header {
+    background-color: green !important;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: green;
+    border-color: green;
+    box-shadow: none;
+}
+
+#lawyer_academic_table th {
+    font-size: 14px;
+}
+
+.small-box.bg-success {
+    background-color: green !important;
+}
+
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active,
+.sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+    background-color: green;
+    color: #fff;
+}
+
+/* Dattime Picker setting */
+
+@media (max-width: 768px) {
+    .bootstrap-datetimepicker-widget {
+        width: 300px !important;
+    }
+
+    .timeline-steps {
+        display: none !important;
+    }
+
+    .academic_record {
+        display: inline;
+    }
+
+    .academic_record .form-group {
+        width: 100% !important;
+    }
+}
+
+@media (min-width: 768.1px) {
+    .bootstrap-datetimepicker-widget {
+        width: 400px !important;
+    }
+
+    .academic_record {
+        display: flex !important;
+    }
+
+}
+
+.text-success {
+    color: green !important;
+}
+
+.bg-light-green {
+    background: #00b44e61 !important;
+}
+
+.bg-success {
+    background: green !important;
+}
+
+.bg-light-red {
+    background: #f5000062 !important;
+}
+
+.bg-light-yellow {
+    background: #f7e867fb !important;
+}
+
+.bg-light-blue {
+    background: #67b8eee1 !important;
+}
+
+.list-img {
+    width: 70px;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
