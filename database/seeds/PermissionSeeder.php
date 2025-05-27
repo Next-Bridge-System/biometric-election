@@ -1047,6 +1047,32 @@ class PermissionSeeder extends Seeder
                 'type' => 'child',
                 'order' => 27,
             ],
+
+            // Manage Candidates - 28
+            [
+                'name' => 'Manage Candidates',
+                'slug' => 'manage-candidates',
+                'type' => 'parent',
+                'order' => 28,
+            ],
+            [
+                'name' => 'Add Candidates',
+                'slug' => 'add-candidates',
+                'type' => 'child',
+                'order' => 28,
+            ],
+            [
+                'name' => 'Edit Candidates',
+                'slug' => 'edit-candidates',
+                'type' => 'child',
+                'order' => 28,
+            ],
+            [
+                'name' => 'Delete Candidates',
+                'slug' => 'delete-candidates',
+                'type' => 'child',
+                'order' => 28,
+            ],
         ];
 
         foreach ($permission_array as $key => $value) {

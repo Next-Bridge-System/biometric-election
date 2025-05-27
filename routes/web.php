@@ -238,6 +238,8 @@ Route::prefix('admin')->group(function () {
                     Route::group(['prefix' => 'seats'], function () {
                         Route::get('/', 'Admin\SeatController@index')->name('seats.index')
                             ->middleware('permission:manage-seats');
+                        Route::post('/getByElection', 'Admin\SeatController@getByElection')->name('seats.getByElection')
+                            ->middleware('permission:manage-seats');
                         Route::get('/create', 'Admin\SeatController@create')->name('seats.create')
                             ->middleware('permission:add-seats');
                         Route::post('/store', 'Admin\SeatController@store')->name('seats.store')
@@ -249,6 +251,23 @@ Route::prefix('admin')->group(function () {
                         Route::get('/destroy/{id}', 'Admin\SeatController@destroy')->name('seats.destroy')
                             ->middleware('permission:delete-seats');
 
+                    });
+                });
+
+                Route::group(['middleware' => ['permission:manage-candidates']], function () {
+                    Route::group(['prefix' => 'candidates'], function () {
+                        Route::get('/', 'Admin\CandidateController@index')->name('candidates.index')
+                            ->middleware('permission:manage-candidates');
+                        Route::get('/create', 'Admin\CandidateController@create')->name('candidates.create')
+                            ->middleware('permission:add-candidates');
+                        Route::post('/store', 'Admin\CandidateController@store')->name('candidates.store')
+                            ->middleware('permission:add-candidates');
+                        Route::get('/edit/{id}', 'Admin\CandidateController@edit')->name('candidates.edit')
+                            ->middleware('permission:edit-candidates');
+                        Route::post('/update/{id}', 'Admin\CandidateController@update')->name('candidates.update')
+                            ->middleware('permission:edit-candidates');
+                        Route::get('/destroy/{id}', 'Admin\CandidateController@destroy')->name('candidates.destroy')
+                            ->middleware('permission:delete-candidates');
                     });
                 });
             });

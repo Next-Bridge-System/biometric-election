@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Candidate;
 use Illuminate\Http\Request;
 use App\Election;
 use App\Http\Controllers\Controller;
@@ -9,9 +10,8 @@ use App\Seat;
 use Illuminate\Http\File;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Validator;
 
-class SeatController extends Controller
+class CandidateController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,18 +20,8 @@ class SeatController extends Controller
      */
     public function index()
     {
-        $seats = Seat::with(['election', 'createdBy'])->get();
-        return view('admin.seats.index', compact('seats'));
-    }
-
-    public function getByElection(Request $request)
-    {
-        $request->validate([
-            'election_id' => 'required|exists:elections,id',
-        ]);
-
-        $seats = Seat::where('election_id', $request->election_id)->get();
-        return ['seats' => $seats];
+        $candidates = Candidate::with(['election', 'seat', 'createdBy'])->get();
+        return view('admin.candidates.index', compact('candidates'));
     }
 
     /**
@@ -42,7 +32,7 @@ class SeatController extends Controller
     public function create()
     {
         $elections = Election::all();
-        return view('admin.seats.create', compact('elections'));
+        return view('admin.candidates.create', compact('elections'));
     }
 
     /**
@@ -55,15 +45,14 @@ class SeatController extends Controller
     {
         $request->validate([
             'election_id' => 'required|exists:elections,id',
+            'seat_id' => 'required|exists:seats,id',
             'name_english' => 'required|string|max:255',
             'name_urdu' => 'nullable|string|max:255',
             'image' => 'nullable|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        // dd($request->hasFile('image'));
-
         $imageUrl = null;
-        $directory = 'elections/seats';
+        $directory = 'elections/candidates';
         if ($request->hasFile('image')) {
             if (!Storage::exists($directory)) {
                 Storage::makeDirectory($directory);
@@ -71,17 +60,18 @@ class SeatController extends Controller
             $imageUrl = Storage::putFile($directory, new File($request->file('image')));
         }
 
-        $seatData = [
+        $candidateData = [
             'election_id' => $request->input('election_id'),
+            'seat_id' => $request->input('seat_id'),
             'name_english' => $request->input('name_english'),
             'name_urdu' => $request->input('name_urdu'),
             'image_url' => $imageUrl,
             'created_by' => Auth::guard('admin')->user()->id,
         ];
 
-        Seat::create($seatData);
+        Candidate::create($candidateData);
 
-        return redirect()->route('seats.index')->with('success', 'Record Added Successfully.');
+        return redirect()->route('candidates.index')->with('success', 'Record Added Successfully.');
     }
 
     /**
@@ -103,15 +93,15 @@ class SeatController extends Controller
      */
     public function edit($id)
     {
-        $seat = Seat::find($id);
+        $candidate = Candidate::find($id);
+        $elections = Election::all();
+        $seats = Seat::where('election_id', $candidate->election_id)->get();
 
-        if ($seat == null) {
+        if ($candidate == null) {
             return redirect()->back()->with('error', 'No Record Found.');
         }
 
-        $elections = Election::all();
-
-        return view('admin.seats.edit', compact('seat', 'elections'));
+        return view('admin.candidates.edit', compact('candidate', 'seats', 'elections'));
     }
 
     /**
@@ -123,9 +113,9 @@ class SeatController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $seat = Seat::find($id);
+        $candidate = Candidate::find($id);
 
-        if ($seat == null) {
+        if ($candidate == null) {
             return redirect()->back()->with('error', 'No Record Found.');
         }
 
@@ -137,28 +127,29 @@ class SeatController extends Controller
         ]);
 
         $imageUrl = null;
-        $directory = 'elections/seats';
+        $directory = 'elections/candidates';
         if ($request->hasFile('image')) {
             if (!Storage::exists($directory)) {
                 Storage::makeDirectory($directory);
             }
             $imageUrl = Storage::putFile($directory, new File($request->file('image')));
 
-            if ($seat->image_url) {
-                Storage::delete($seat->image_url);
+            if ($candidate->image_url) {
+                Storage::delete($candidate->image_url);
             }
         }
 
-        $seatData = [
+        $candidateData = [
             'election_id' => $request->input('election_id'),
+            'seat_id' => $request->input('seat_id'),
             'name_english' => $request->input('name_english'),
             'name_urdu' => $request->input('name_urdu'),
             'image_url' => $imageUrl,
         ];
 
-        $seat->update($seatData);
+        $candidate->update($candidateData);
 
-        return redirect()->route('seats.index')->with('success', 'Record Updated Successfully.');
+        return redirect()->route('candidates.index')->with('success', 'Record Updated Successfully.');
     }
 
     /**
@@ -169,13 +160,13 @@ class SeatController extends Controller
      */
     public function destroy($id)
     {
-        $seat = Seat::find($id);
+        $candidate = Candidate::find($id);
 
-        if ($seat == null) {
+        if ($candidate == null) {
             return redirect()->back()->with('error', 'No Record Found.');
         }
 
-        $seat->delete();
-        return redirect()->route('seats.index')->with('success', 'Record Deleted Successfully.');
+        $candidate->delete();
+        return redirect()->route('candidates.index')->with('success', 'Record Deleted Successfully.');
     }
 }

@@ -249,6 +249,41 @@
                 </li>
                 @endif
 
+                @if (Auth::guard('admin')->user()->hasPermission('manage-candidates'))
+                <li class="nav-item has-treeview {{(Route::currentRouteName() == 'candidates.index' ||
+                                                    Route::currentRouteName() == 'candidates.create' ||
+                                                    Route::currentRouteName() == 'candidates.show' ||
+                                                    Route::currentRouteName() == 'candidates.edit') ? 'menu-open' : ''}}">
+                    <a href="#"
+                        class="nav-link {{(Route::currentRouteName() == 'candidates.index' ||
+                                                        Route::currentRouteName() == 'candidates.create' ||
+                                                        Route::currentRouteName() == 'candidates.show' ||
+                                                        Route::currentRouteName() == 'candidates.edit') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-paper-plane"></i>
+                        <p>
+                            Manage Candidates
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('candidates.create')}}"
+                                class="nav-link {{(Route::currentRouteName() == 'candidates.create') ? 'active' : ''}}">
+                                <i class="fas fa-caret-right nav-icon"></i>
+                                <p>Add Candidate</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('candidates.index')}}"
+                                class="nav-link {{(Route::currentRouteName() == 'candidates.index') ? 'active' : ''}}">
+                                <i class="fas fa-caret-right nav-icon"></i>
+                                <p>Candidates List</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endif
+
                 @if (permission('manage-complaints'))
                 <li class="nav-header"><b>SETTINGS</b></li>
                 @endif
