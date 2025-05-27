@@ -214,6 +214,41 @@
                 </li>
                 @endif
 
+                @if (Auth::guard('admin')->user()->hasPermission('manage-seats'))
+                <li class="nav-item has-treeview {{(Route::currentRouteName() == 'seats.index' ||
+                                                    Route::currentRouteName() == 'seats.create' ||
+                                                    Route::currentRouteName() == 'seats.show' ||
+                                                    Route::currentRouteName() == 'seats.edit') ? 'menu-open' : ''}}">
+                    <a href="#"
+                        class="nav-link {{(Route::currentRouteName() == 'seats.index' ||
+                                                        Route::currentRouteName() == 'seats.create' ||
+                                                        Route::currentRouteName() == 'seats.show' ||
+                                                        Route::currentRouteName() == 'seats.edit') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-paper-plane"></i>
+                        <p>
+                            Manage Seats
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('seats.create')}}"
+                                class="nav-link {{(Route::currentRouteName() == 'seats.create') ? 'active' : ''}}">
+                                <i class="fas fa-caret-right nav-icon"></i>
+                                <p>Add Seat</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('seats.index')}}"
+                                class="nav-link {{(Route::currentRouteName() == 'seats.index') ? 'active' : ''}}">
+                                <i class="fas fa-caret-right nav-icon"></i>
+                                <p>Seats List</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endif
+
                 @if (permission('manage-complaints'))
                 <li class="nav-header"><b>SETTINGS</b></li>
                 @endif

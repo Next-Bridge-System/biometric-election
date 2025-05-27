@@ -233,6 +233,24 @@ Route::prefix('admin')->group(function () {
 
                     });
                 });
+
+                Route::group(['middleware' => ['permission:manage-seats']], function () {
+                    Route::group(['prefix' => 'seats'], function () {
+                        Route::get('/', 'Admin\SeatController@index')->name('seats.index')
+                            ->middleware('permission:manage-seats');
+                        Route::get('/create', 'Admin\SeatController@create')->name('seats.create')
+                            ->middleware('permission:add-seats');
+                        Route::post('/store', 'Admin\SeatController@store')->name('seats.store')
+                            ->middleware('permission:add-seats');
+                        Route::get('/edit/{id}', 'Admin\SeatController@edit')->name('seats.edit')
+                            ->middleware('permission:edit-seats');
+                        Route::post('/update/{id}', 'Admin\SeatController@update')->name('seats.update')
+                            ->middleware('permission:edit-seats');
+                        Route::get('/destroy/{id}', 'Admin\SeatController@destroy')->name('seats.destroy')
+                            ->middleware('permission:delete-seats');
+
+                    });
+                });
             });
         });
     });

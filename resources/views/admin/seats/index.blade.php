@@ -11,9 +11,9 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item">
-                            @if (Auth::guard('admin')->user()->hasPermission('add-operators'))
-                                <a href="{{ route('elections.create') }}" class="btn btn-success mt-2">
-                                    <i class="fas fa-plus mr-1" aria-hidden="true"></i> Add Election
+                            @if (Auth::guard('admin')->user()->hasPermission('add-seats'))
+                                <a href="{{ route('seats.create') }}" class="btn btn-success mt-2">
+                                    <i class="fas fa-plus mr-1" aria-hidden="true"></i> Add Seat
                                 </a>
                             @endif
                         </li>
@@ -31,46 +31,55 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">
-                                Elections List (Total Elections : {{ $elections->count() }})
+                                Seats List (Total Seats : {{ $seats->count() }})
                             </h3>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <table id="elections" class="table table-bordered table-striped table-sm">
+                            <table id="seats" class="table table-bordered table-striped table-sm">
                                 <thead>
                                     <tr>
                                         <th>Sr.#</th>
-                                        <th>Title English</th>
-                                        <th>Title Urdu</th>
+                                        <th>Election</th>
+                                        <th>Name English</th>
+                                        <th>Name Urdu</th>
+                                        <th>Image</th>
                                         <th>Status</th>
                                         <th>Created By</th>
-                                        @if (Auth::guard('admin')->user()->hasPermission('edit-elections'))
+                                        @if (Auth::guard('admin')->user()->hasPermission('edit-seats'))
                                             <th>Action</th>
                                         @endif
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @php $count = 1; @endphp
-                                    @foreach ($elections as $election)
+                                    @foreach ($seats as $seat)
                                         <tr>
                                             <td>{{ $count++ }}</td>
-                                            <td>{{ $election->title_english }}</td>
-                                            <td>{{ $election->title_urdu }}</td>
+                                            <td>{{ $seat->election->title_english }}</td>
+                                            <td>{{ $seat->name_english }}</td>
+                                            <td>{{ $seat->name_urdu }}</td>
                                             <td>
-                                                @if ($election->status == 1)
+                                                @if ($seat->image_url)
+                                                    <img src="{{ asset('storage/app/public/' . $seat->image_url) }}"
+                                                        alt="" height="50" width="50">
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($seat->status == 1)
                                                     <span class="badge badge-success">Active</span>
                                                 @else
                                                     <span class="badge badge-danger">Inactive</span>
                                                 @endif
-                                            </td>
-                                            <td>{{ $election->createdBy->name }}</td>
-                                            @if (Auth::guard('admin')->user()->hasPermission('edit-elections'))
+                                                </img>
+                                            <td>{{ $seat->createdBy->name }}</td>
+                                            @if (Auth::guard('admin')->user()->hasPermission('edit-seats'))
                                                 <td class="text-center">
-                                                    <a href="{{ route('elections.edit', $election->id) }}">
+                                                    <a href="{{ route('seats.edit', $seat->id) }}">
                                                         <span class="badge badge-primary"><i class="far fa-edit mr-1"
                                                                 aria-hidden="true"></i>Edit</span>
                                                     </a>
-                                                    <a href="{{ route('elections.destroy', $election->id) }}">
+                                                    <a href="{{ route('seats.destroy', $seat->id) }}">
                                                         <span class="badge badge-danger"><i class="fas fa-trash mr-1"
                                                                 aria-hidden="true"></i>Delete</span>
                                                     </a>
@@ -97,7 +106,7 @@
 @section('scripts')
     <script>
         $(function() {
-            $("#elections").DataTable({
+            $("#seats").DataTable({
                 "responsive": true,
                 "autoWidth": false,
             });

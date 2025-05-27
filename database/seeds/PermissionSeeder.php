@@ -1021,6 +1021,32 @@ class PermissionSeeder extends Seeder
                 'type' => 'child',
                 'order' => 26,
             ],
+
+            // Manage Seats - 27
+            [
+                'name' => 'Manage Seats',
+                'slug' => 'manage-seats',
+                'type' => 'parent',
+                'order' => 27,
+            ],
+            [
+                'name' => 'Add Seats',
+                'slug' => 'add-seats',
+                'type' => 'child',
+                'order' => 27,
+            ],
+            [
+                'name' => 'Edit Seats',
+                'slug' => 'edit-seats',
+                'type' => 'child',
+                'order' => 27,
+            ],
+            [
+                'name' => 'Delete Seats',
+                'slug' => 'delete-seats',
+                'type' => 'child',
+                'order' => 27,
+            ],
         ];
 
         foreach ($permission_array as $key => $value) {
