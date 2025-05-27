@@ -30,7 +30,7 @@ class SeatController extends Controller
             'election_id' => 'required|exists:elections,id',
         ]);
 
-        $seats = Seat::where('election_id', $request->election_id)->get();
+        $seats = Seat::where('election_id', $request->election_id)->where('status', 1)->get();
         return ['seats' => $seats];
     }
 
@@ -41,7 +41,7 @@ class SeatController extends Controller
      */
     public function create()
     {
-        $elections = Election::all();
+        $elections = Election::where('status', 1)->get();
         return view('admin.seats.create', compact('elections'));
     }
 
@@ -109,7 +109,7 @@ class SeatController extends Controller
             return redirect()->back()->with('error', 'No Record Found.');
         }
 
-        $elections = Election::all();
+        $elections = Election::where('status', 1)->get();
 
         return view('admin.seats.edit', compact('seat', 'elections'));
     }
@@ -134,9 +134,10 @@ class SeatController extends Controller
             'name_english' => 'required|string|max:255',
             'name_urdu' => 'nullable|string|max:255',
             'image' => 'nullable|image|max:2048',
+            'status' => 'required|in:0,1',
         ]);
 
-        $imageUrl = null;
+        $seatData = [];
         $directory = 'elections/seats';
         if ($request->hasFile('image')) {
             if (!Storage::exists($directory)) {
@@ -147,14 +148,16 @@ class SeatController extends Controller
             if ($seat->image_url) {
                 Storage::delete($seat->image_url);
             }
+
+            $seatData['image_url'] = $imageUrl;
         }
 
-        $seatData = [
+        $seatData = array_merge($seatData, [
             'election_id' => $request->input('election_id'),
             'name_english' => $request->input('name_english'),
             'name_urdu' => $request->input('name_urdu'),
-            'image_url' => $imageUrl,
-        ];
+            'status' => $request->input('status'),
+        ]);
 
         $seat->update($seatData);
 
@@ -167,15 +170,15 @@ class SeatController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        $seat = Seat::find($id);
+    // public function destroy($id)
+    // {
+    //     $seat = Seat::find($id);
 
-        if ($seat == null) {
-            return redirect()->back()->with('error', 'No Record Found.');
-        }
+    //     if ($seat == null) {
+    //         return redirect()->back()->with('error', 'No Record Found.');
+    //     }
 
-        $seat->delete();
-        return redirect()->route('seats.index')->with('success', 'Record Deleted Successfully.');
-    }
+    //     $seat->delete();
+    //     return redirect()->route('seats.index')->with('success', 'Record Deleted Successfully.');
+    // }
 }

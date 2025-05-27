@@ -1015,12 +1015,12 @@ class PermissionSeeder extends Seeder
                 'type' => 'child',
                 'order' => 26,
             ],
-            [
-                'name' => 'Delete Elections',
-                'slug' => 'delete-elections',
-                'type' => 'child',
-                'order' => 26,
-            ],
+            // [
+            //     'name' => 'Delete Elections',
+            //     'slug' => 'delete-elections',
+            //     'type' => 'child',
+            //     'order' => 26,
+            // ],
 
             // Manage Seats - 27
             [
@@ -1041,12 +1041,12 @@ class PermissionSeeder extends Seeder
                 'type' => 'child',
                 'order' => 27,
             ],
-            [
-                'name' => 'Delete Seats',
-                'slug' => 'delete-seats',
-                'type' => 'child',
-                'order' => 27,
-            ],
+            // [
+            //     'name' => 'Delete Seats',
+            //     'slug' => 'delete-seats',
+            //     'type' => 'child',
+            //     'order' => 27,
+            // ],
 
             // Manage Candidates - 28
             [
@@ -1067,12 +1067,12 @@ class PermissionSeeder extends Seeder
                 'type' => 'child',
                 'order' => 28,
             ],
-            [
-                'name' => 'Delete Candidates',
-                'slug' => 'delete-candidates',
-                'type' => 'child',
-                'order' => 28,
-            ],
+            // [
+            //     'name' => 'Delete Candidates',
+            //     'slug' => 'delete-candidates',
+            //     'type' => 'child',
+            //     'order' => 28,
+            // ],
         ];
 
         foreach ($permission_array as $key => $value) {

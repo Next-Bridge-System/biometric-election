@@ -31,7 +31,7 @@ class CandidateController extends Controller
      */
     public function create()
     {
-        $elections = Election::all();
+        $elections = Election::where('status', 1)->get();
         return view('admin.candidates.create', compact('elections'));
     }
 
@@ -94,8 +94,8 @@ class CandidateController extends Controller
     public function edit($id)
     {
         $candidate = Candidate::find($id);
-        $elections = Election::all();
-        $seats = Seat::where('election_id', $candidate->election_id)->get();
+        $elections = Election::where('status', 1)->get();
+        $seats = Seat::where('election_id', $candidate->election_id)->where('status', 1)->get();
 
         if ($candidate == null) {
             return redirect()->back()->with('error', 'No Record Found.');
@@ -121,12 +121,14 @@ class CandidateController extends Controller
 
         $request->validate([
             'election_id' => 'required|exists:elections,id',
+            'seat_id' => 'required|exists:seats,id',
             'name_english' => 'required|string|max:255',
             'name_urdu' => 'nullable|string|max:255',
             'image' => 'nullable|image|max:2048',
+            'status' => 'required|in:0,1',
         ]);
 
-        $imageUrl = null;
+        $candidateData = [];
         $directory = 'elections/candidates';
         if ($request->hasFile('image')) {
             if (!Storage::exists($directory)) {
@@ -137,15 +139,17 @@ class CandidateController extends Controller
             if ($candidate->image_url) {
                 Storage::delete($candidate->image_url);
             }
+
+            $candidateData['image_url'] = $imageUrl;
         }
 
-        $candidateData = [
+        $candidateData = array_merge($candidateData, [
             'election_id' => $request->input('election_id'),
             'seat_id' => $request->input('seat_id'),
             'name_english' => $request->input('name_english'),
             'name_urdu' => $request->input('name_urdu'),
-            'image_url' => $imageUrl,
-        ];
+            'status' => $request->input('status'),
+        ]);
 
         $candidate->update($candidateData);
 
@@ -158,15 +162,15 @@ class CandidateController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        $candidate = Candidate::find($id);
+    // public function destroy($id)
+    // {
+    //     $candidate = Candidate::find($id);
 
-        if ($candidate == null) {
-            return redirect()->back()->with('error', 'No Record Found.');
-        }
+    //     if ($candidate == null) {
+    //         return redirect()->back()->with('error', 'No Record Found.');
+    //     }
 
-        $candidate->delete();
-        return redirect()->route('candidates.index')->with('success', 'Record Deleted Successfully.');
-    }
+    //     $candidate->delete();
+    //     return redirect()->route('candidates.index')->with('success', 'Record Deleted Successfully.');
+    // }
 }

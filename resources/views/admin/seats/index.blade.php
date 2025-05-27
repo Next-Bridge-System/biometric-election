@@ -79,10 +79,10 @@
                                                         <span class="badge badge-primary"><i class="far fa-edit mr-1"
                                                                 aria-hidden="true"></i>Edit</span>
                                                     </a>
-                                                    <a href="{{ route('seats.destroy', $seat->id) }}">
+                                                    {{-- <a href="{{ route('seats.destroy', $seat->id) }}">
                                                         <span class="badge badge-danger"><i class="fas fa-trash mr-1"
                                                                 aria-hidden="true"></i>Delete</span>
-                                                    </a>
+                                                    </a> --}}
                                                 </td>
                                             @endif
                                         </tr>

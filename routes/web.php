@@ -228,8 +228,8 @@ Route::prefix('admin')->group(function () {
                             ->middleware('permission:edit-elections');
                         Route::post('/update/{id}', 'Admin\ElectionController@update')->name('elections.update')
                             ->middleware('permission:edit-elections');
-                        Route::get('/destroy/{id}', 'Admin\ElectionController@destroy')->name('elections.destroy')
-                            ->middleware('permission:delete-elections');
+                        // Route::get('/destroy/{id}', 'Admin\ElectionController@destroy')->name('elections.destroy')
+                        //     ->middleware('permission:delete-elections');
 
                     });
                 });
@@ -248,8 +248,8 @@ Route::prefix('admin')->group(function () {
                             ->middleware('permission:edit-seats');
                         Route::post('/update/{id}', 'Admin\SeatController@update')->name('seats.update')
                             ->middleware('permission:edit-seats');
-                        Route::get('/destroy/{id}', 'Admin\SeatController@destroy')->name('seats.destroy')
-                            ->middleware('permission:delete-seats');
+                        // Route::get('/destroy/{id}', 'Admin\SeatController@destroy')->name('seats.destroy')
+                        //     ->middleware('permission:delete-seats');
 
                     });
                 });
@@ -266,8 +266,8 @@ Route::prefix('admin')->group(function () {
                             ->middleware('permission:edit-candidates');
                         Route::post('/update/{id}', 'Admin\CandidateController@update')->name('candidates.update')
                             ->middleware('permission:edit-candidates');
-                        Route::get('/destroy/{id}', 'Admin\CandidateController@destroy')->name('candidates.destroy')
-                            ->middleware('permission:delete-candidates');
+                        // Route::get('/destroy/{id}', 'Admin\CandidateController@destroy')->name('candidates.destroy')
+                        //     ->middleware('permission:delete-candidates');
                     });
                 });
             });

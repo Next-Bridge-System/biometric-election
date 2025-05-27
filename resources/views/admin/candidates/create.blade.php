@@ -64,7 +64,8 @@
                                             <label>Image:</label>
                                             <input type="file" id="image" name="image" class="form-control"
                                                 accept="image/jpg,image/jpeg,image/png">
-                                            <img src="{{ old('image') }}" alt="">
+                                            <img id="imagePreview" width="150" class="rounded mt-2 img-thumbnail"
+                                                style="display: none;">
                                         </div>
                                     </div>
                                 </fieldset>
@@ -86,21 +87,6 @@
 @section('scripts')
     <script src="{{ asset('public/js/app.js') }}"></script>
     <script>
-        $('.election_id').on('change', function() {
-            let election_id = $(this).find(":selected").val();
-            $.ajax({
-                method: "POST",
-                url: '{{ route('seats.getByElection') }}',
-                data: {
-                    _token: $('meta[name="csrf-token"]').attr('content'),
-                    'election_id': election_id
-                },
-                success: function(response) {
-                    appendSelectOption($('.seat_id'), response.seats);
-                }
-            });
-        })
-
         function appendSelectOption(selector, responseArray) {
             let option = '';
             let id = selector.data('id');
@@ -115,5 +101,37 @@
                 selector.prop('disabled', false);
             }
         }
+
+        function readURL(event, id) {
+            let input = event.target;
+            if (input.files && input.files[0]) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    $(id).attr('src', e.target.result).show();
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $(document).ready(function() {
+            $('.election_id').on('change', function() {
+                let election_id = $(this).find(":selected").val();
+                $.ajax({
+                    method: "POST",
+                    url: '{{ route('seats.getByElection') }}',
+                    data: {
+                        _token: $('meta[name="csrf-token"]').attr('content'),
+                        'election_id': election_id
+                    },
+                    success: function(response) {
+                        appendSelectOption($('.seat_id'), response.seats);
+                    }
+                });
+            })
+
+            $('#image').on('change', function(event) {
+                readURL(event, '#imagePreview');
+            });
+        });
     </script>
 @endsection

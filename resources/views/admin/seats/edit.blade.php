@@ -53,10 +53,26 @@
                                             <input type="text" maxlength="255" class="form-control" name="name_urdu"
                                                 value="{{ $seat->name_urdu }}">
                                         </div>
-                                        <div class="form-group col-md-12">
+                                        <div class="form-group col-12 col-md-6">
                                             <label>Image:</label>
                                             <input type="file" id="image" name="image" class="form-control"
                                                 accept="image/jpg,image/jpeg,image/png">
+
+                                            <img id="imagePreview" width="100"
+                                                src="{{ isset($seat) && $seat->image_url ? asset('storage/app/public/' . $seat->image_url) : '' }}"
+                                                alt="{{ isset($seat) ? $seat->name_english : 'Image Preview' }}"
+                                                class="rounded mt-2 img-thumbnail"
+                                                style="display: {{ isset($seat) && $seat->image_url ? 'block' : 'none' }};">
+                                        </div>
+                                        <div class="form-group col-12 col-md-6">
+                                            <label>Status <span class="required-star">*</span></label>
+                                            <select class="form-control" name="status" required>
+                                                <option value="">Select Status</option>
+                                                <option value="1" {{ $election->status == 1 ? 'selected' : '' }}>Active
+                                                </option>
+                                                <option value="0" {{ $election->status == 0 ? 'selected' : '' }}>
+                                                    Inactive</option>
+                                            </select>
                                         </div>
                                     </div>
                                 </fieldset>
@@ -73,4 +89,25 @@
         <!-- /.row -->
     </section>
     <!-- /.content -->
+@endsection
+
+@section('scripts')
+    <script>
+        function readURL(event, id) {
+            let input = event.target;
+            if (input.files && input.files[0]) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    $(id).attr('src', e.target.result).show();
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $(document).ready(function() {
+            $('#image').on('change', function(event) {
+                readURL(event, '#imagePreview');
+            });
+        });
+    </script>
 @endsection

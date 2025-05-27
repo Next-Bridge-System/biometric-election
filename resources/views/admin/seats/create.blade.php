@@ -54,7 +54,8 @@
                                             <label>Image:</label>
                                             <input type="file" id="image" name="image" class="form-control"
                                                 accept="image/jpg,image/jpeg,image/png">
-                                            <img src="{{ old('image') }}" alt="">
+                                            <img id="imagePreview" width="150" class="rounded mt-2 img-thumbnail"
+                                                style="display: none;">
                                         </div>
                                     </div>
                                 </fieldset>
@@ -71,4 +72,25 @@
         <!-- /.row -->
     </section>
     <!-- /.content -->
+@endsection
+
+@section('scripts')
+    <script>
+        function readURL(event, id) {
+            let input = event.target;
+            if (input.files && input.files[0]) {
+                let reader = new FileReader();
+                reader.onload = function(e) {
+                    $(id).attr('src', e.target.result).show();
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        $(document).ready(function() {
+            $('#image').on('change', function(event) {
+                readURL(event, '#imagePreview');
+            });
+        });
+    </script>
 @endsection

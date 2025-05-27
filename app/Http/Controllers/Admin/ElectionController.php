@@ -101,11 +101,13 @@ class ElectionController extends Controller
         $request->validate([
             'title_english' => 'required|string|max:255',
             'title_urdu' => 'nullable|string|max:255',
+            'status' => 'required|in:0,1',
         ]);
 
         $electionData = [
             'title_english' => $request->input('title_english'),
             'title_urdu' => $request->input('title_urdu'),
+            'status' => $request->input('status'),
         ];
 
         $election->update($electionData);
@@ -119,15 +121,15 @@ class ElectionController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        $election = Election::find($id);
+    // public function destroy($id)
+    // {
+    //     $election = Election::find($id);
 
-        if ($election == null) {
-            return redirect()->back()->with('error', 'No Record Found.');
-        }
+    //     if ($election == null) {
+    //         return redirect()->back()->with('error', 'No Record Found.');
+    //     }
 
-        $election->delete();
-        return redirect()->route('elections.index')->with('success', 'Record Deleted Successfully.');
-    }
+    //     $election->delete();
+    //     return redirect()->route('elections.index')->with('success', 'Record Deleted Successfully.');
+    // }
 }

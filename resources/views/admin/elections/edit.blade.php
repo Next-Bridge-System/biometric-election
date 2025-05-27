@@ -40,6 +40,16 @@
                                             <input type="text" maxlength="255" class="form-control" name="title_urdu"
                                                 value="{{ $election->title_urdu }}">
                                         </div>
+                                        <div class="form-group col-12">
+                                            <label>Status <span class="required-star">*</span></label>
+                                            <select class="form-control" name="status" required>
+                                                <option value="">Select Status</option>
+                                                <option value="1" {{ $election->status == 1 ? 'selected' : '' }}>Active
+                                                </option>
+                                                <option value="0" {{ $election->status == 0 ? 'selected' : '' }}>
+                                                    Inactive</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </fieldset>
                             </div>
