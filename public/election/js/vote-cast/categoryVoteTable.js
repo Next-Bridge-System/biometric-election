@@ -6,6 +6,7 @@ function getLightColor(index) {
   return `hsl(${hue}, 70%, 92%)`;  // light pastel tone
 }
 function renderCategoryVoteTable(data) {
+
   const MAX_CANDIDATES = Math.max(...data.map(entry => entry.candidates.length));
   const table = $('#category-vote-table tbody');
   table.empty();
@@ -28,15 +29,17 @@ function renderCategoryVoteTable(data) {
 
     // Candidates
     candidates.forEach((candidate, i) => {
-const td = $(`
-  <td class="text-center selectable"
-      data-row="${safeId}"
-      data-category="${category}"
-      data-index="${i}">
-</td>`);
-td.append(`<img src="${candidate.image}" style="width:100px"><br>
-           <div class="mt-1">${candidate.name}</div>`);
-      tr.append(td);
+      const td = $(`
+                    <td class="text-center selectable"
+                        data-row="${safeId}"
+                        data-category="${category}"
+                        data-index="${i}">
+                  </td>`);
+            td.append(`
+                      <b> ${candidate.image}</b><br>
+                      <div class="mt-1">${candidate.name}</div>
+                    `);
+            tr.append(td);
     });
 
     // Last: category name
@@ -45,31 +48,31 @@ td.append(`<img src="${candidate.image}" style="width:100px"><br>
   });
 
   // Selection handler
-$('#category-vote-table')
-  .off('click', 'td.selectable')
-  .on('click', 'td.selectable', function () {
+  $('#category-vote-table')
+    .off('click', 'td.selectable')
+    .on('click', 'td.selectable', function () {
 
-    const rowId    = $(this).data('row');
-    const category = $(this).data('category');
-    const index    = $(this).data('index');
-    const candName = $(this).find('div').text();   // text under image
+      const rowId = $(this).data('row');
+      const category = $(this).data('category');
+      const index = $(this).data('index');
+      const candName = $(this).find('div').text();   // text under image
 
-    /* clear previous highlight in this row */
-    $(`#category-vote-table td[data-row="${rowId}"]`)
+      /* clear previous highlight in this row */
+      $(`#category-vote-table td[data-row="${rowId}"]`)
         .removeClass('bg-success text-white');
 
-    /* highlight clicked cell */
-    $(this).addClass('bg-success text-white');
+      /* highlight clicked cell */
+      $(this).addClass('bg-success text-white');
 
-    /* update left-most cell */
-    $(`#selected-${rowId}`).text(candName);
+      /* update left-most cell */
+      $(`#selected-${rowId}`).text(candName);
 
-    formData.multiVotes[category] = {
-      candidateIndex : index,
-      candidateName  : candName,
-      image          : $(this).find('img').attr('src')
-    };
-});
+      formData.multiVotes[category] = {
+        candidateIndex: index,
+        candidateName: candName,
+        image: $(this).find('img').attr('src')
+      };
+    });
 
 
 

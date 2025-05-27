@@ -1,14 +1,14 @@
 
 $(document).ready(function () {
-  
-// $('#cnic-scan').val('1234-1234567-1');
+
+  // $('#cnic-scan').val('1234-1234567-1');
 
 
-let returnedVotingData;
+  let returnedVotingData;
 
   let current = 0;
   const steps = $('.vote-step');
- 
+
 
   function showStep(index) {
     steps.addClass('d-none');
@@ -18,19 +18,19 @@ let returnedVotingData;
   function collectData(step) {
     if (step === 0) {
       formData.cnic = $('#cnic-scan').val().trim();
-    } 
+    }
   }
 
 
   $('.next-btn').on('click', function () {
-      
+
     if (!validateStep(current)) return;
 
     collectData(current);
 
-   if (current === 2) {
-   
- returnedVotingData= renderCategoryVoteTable(votingData);
+    if (current === 2) {
+
+      returnedVotingData = renderCategoryVoteTable(votingData);
 
     }
 
@@ -38,16 +38,13 @@ let returnedVotingData;
     showStep(current);
   });
 
-    
+
   $('.back-btn').on('click', function () {
     if (current > 0) {
       current--;
       showStep(current);
     }
   });
- 
-
-
 
 
   $('#submit-multi-vote').off('click').on('click', () => {
@@ -62,15 +59,14 @@ let returnedVotingData;
       return;
     }
 
-
-   renderFinalReviewTable(returnedVotingData);
+    //  renderFinalReviewTable(returnedVotingData);
     showStep(5)
   });
 
   /* final submission */
-$('#submit-final').on('click', () => {
-  console.log('Form Data:', formData);
-  showStep(6);                                // next step / backend submit
-});
+  $('#submit-final').on('click', () => {
+    console.log('Form Data:', formData);
+    showStep(6);                                // next step / backend submit
+  });
 
 });

@@ -22,7 +22,7 @@
 
     <div class="d-flex justify-content-center align-items-center h-100 vw-100 position-relative">
         <!-- Decorations -->
-        
+
         <img src="{{asset('public/admin/images/logo.png')}}" class="deco deco-logo" alt="Logo">
         <img src="{{asset('public/election/assets/backround-left.png')}}" class="deco deco-tl" alt="">
         <img src="{{asset('public/election/assets/background.png')}}" class="deco deco-br" alt="">
@@ -34,10 +34,12 @@
             <div id="vote-steps">
                 <div class="vote-step " data-step="0">
                     <h5 class="mb-3 text-center">Scan Your CNIC</h5>
-                    <input id="cnic-scan" type="text" class="form-control mb-3" placeholder="1234-1234567-1" value="1234-1234567-1">
+                    <input id="cnic-scan" type="text" class="form-control mb-3" placeholder="1234-1234567-1"
+                        value="1234-1234567-1">
                     <div id="cnic-error" class="text-danger d-none my-3">براہ کرم درست CNIC درج کریں۔</div>
                     <div class="text-center mb-3">
-                        <img src="{{asset('public/election/assets/QR.png')}}" alt="Scan QR" class="img-fluid" style="max-width:200px;">
+                        <img src="{{asset('public/election/assets/QR.png')}}" alt="Scan QR" class="img-fluid"
+                            style="max-width:200px;">
                     </div>
                     <div class="d-flex justify-content-end">
                         <button class="btn btn-green ml-auto next-btn"><i class="fa-solid fa-arrow-right"></i></button>
@@ -47,7 +49,8 @@
                 <div class="vote-step d-none" data-step="1">
                     <h4 class="mb-3 font-weight-bold">Welcome to</h4>
                     <h5 class="mb-2">Biometric Election System</h5>
-                    <img src="{{asset('public/election/assets/fingerprint.png')}}" class="my-5" alt="" style="width: 200px;">
+                    <img src="{{asset('public/election/assets/fingerprint.png')}}" class="my-5" alt=""
+                        style="width: 200px;">
                     <h5 class="mb-4">بائیو میٹرک الیکشن سسٹم</h5>
                     <div class="d-flex justify-content-end">
                         <button class="btn btn-green ml-auto next-btn"><i class="fa-solid fa-arrow-right"></i></button>
@@ -55,13 +58,13 @@
                 </div>
 
 
-
                 <div class="vote-step d-none" data-step="2">
                     <h4 class="mb-3 font-weight-bold">Scan your Fingerprint</h4>
                     <h5 class="mb-4">اپنی بایومیٹرک تصدیق کریں</h5>
 
                     <div class="d-flex justify-content-center align-items-center flex-column">
-                        <img src="{{asset('public/election/assets/FingerScan.png')}}" alt="Fingerprint" style="width: 90px; margin-bottom: 1rem;">
+                        <img src="{{asset('public/election/assets/FingerScan.png')}}" alt="Fingerprint"
+                            style="width: 90px; margin-bottom: 1rem;">
                     </div>
 
                     <div class="d-flex justify-content-between mt-4">
@@ -69,7 +72,6 @@
                         <button class="btn btn-green next-btn"><i class="fa-solid fa-arrow-right"></i></button>
                     </div>
                 </div>
-
 
                 <div class="vote-step d-none" data-step="3">
                     <h3 class="font-weight-bold">Voter Information</h3>
@@ -85,8 +87,8 @@
                                 <p class="mb-0">آپ کی بایومیٹرک تصدیق ہو گئی ہے</p>
                             </div>
                             <div class="col-sm-5 rounded text-center shadow ">
-                                <img id="voter-photo" src="{{asset('public/election/assets/face.png')}}" alt="Voter Photo"
-                                    class="img-fluid rounded" style="max-width: 180px;">
+                                <img id="voter-photo" src="{{asset('public/election/assets/face.png')}}"
+                                    alt="Voter Photo" class="img-fluid rounded" style="max-width: 180px;">
                                 <div class="btn-circle btn-success mt-2"><i class="fa-solid fa-check"></i></div>
                             </div>
                         </div>
@@ -97,6 +99,7 @@
 
                     </div>
                 </div>
+
                 <!-- Step 6: Multi-Category Voting Table -->
                 <div class="vote-step d-none" data-step="4">
                     <h4 class="font-weight-bold">Select Candidate Category</h4>
@@ -112,7 +115,7 @@
                             کروائیں</span></button>
                 </div>
 
-                <div class="container mt-4 vote-step d-none" data-step="5">
+                {{-- <div class="container mt-4 vote-step d-none" data-step="5">
                     <h4 class="text-center font-weight-bold mb-2">You have voted for these candidates.</h4>
                     <h5 class="text-center text-muted mb-4">آپ نے ان امیدواروں کو ووٹ کر چکے ہیں</h5>
 
@@ -124,7 +127,7 @@
                         <button class="btn btn-green mt-3" id="submit-final">Submit – No Changes<br><small>تصدیق اور
                                 ارسال</small></button>
                     </div>
-                </div>
+                </div> --}}
 
                 <!-- Modal -->
                 <div class="modal fade" id="reselectModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -156,16 +159,19 @@
             </div>
         </div>
     </div>
+
     <!-- Fingerprint Failed Modal -->
     <div class="modal fade" id="fingerFailModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content text-center p-4 border border-primary">
                 <h4>Your biometric verification was not successful.</h4>
-                <img src="{{asset('public/election/assets/cross.png')}}" alt="X" style="width: 40px; margin: 1rem auto;">
+                <img src="{{asset('public/election/assets/cross.png')}}" alt="X"
+                    style="width: 40px; margin: 1rem auto;">
                 <h5 class="font-weight-light">آپ کی بایومیٹرک تصدیق نہیں ہوئی</h5>
             </div>
         </div>
     </div>
+
     <!-- Vote Confirmation Modal -->
     <div class="modal fade" id="confirmVoteModal" tabindex="-1" role="dialog" aria-labelledby="confirmVoteLabel"
         aria-hidden="true">
@@ -180,7 +186,7 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
@@ -190,10 +196,14 @@
         integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous">
     </script>
 
+    <script>
+        const votingData = @json($final_candidates);
+    </script>
+
     <script src="{{asset('public/election/js/vote-cast/globals.js')}}"></script>
-    <script src="{{asset('public/election/js/vote-cast/dummy-data/categories.js')}}"></script>
+    {{-- <script src="{{asset('public/election/js/vote-cast/dummy-data/categories.js')}}"></script> --}}
     <script src="{{asset('public/election/js/vote-cast/categoryVoteTable.js')}}"></script>
-    <script src="{{asset('public/election/js/vote-cast/reviewTable.js')}}"></script>
+    {{-- <script src="{{asset('public/election/js/vote-cast/reviewTable.js')}}"></script> --}}
     <script src="{{asset('public/election/js/vote-cast/formValidation.js')}}"></script>
     <script src="{{asset('public/election/js/vote-cast/index.js')}}"></script>
 
