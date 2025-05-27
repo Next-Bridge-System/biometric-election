@@ -215,6 +215,24 @@ Route::prefix('admin')->group(function () {
                     Route::resource('members', 'MemberController')->except('destroy');
                     Route::post('destroy', 'MemberController@destroy')->name('members.destroy');
                 });
+
+                Route::group(['middleware' => ['permission:manage-elections']], function () {
+                    Route::group(['prefix' => 'elections'], function () {
+                        Route::get('/', 'Admin\ElectionController@index')->name('elections.index')
+                            ->middleware('permission:manage-elections');
+                        Route::get('/create', 'Admin\ElectionController@create')->name('elections.create')
+                            ->middleware('permission:add-elections');
+                        Route::post('/store', 'Admin\ElectionController@store')->name('elections.store')
+                            ->middleware('permission:add-elections');
+                        Route::get('/edit/{id}', 'Admin\ElectionController@edit')->name('elections.edit')
+                            ->middleware('permission:edit-elections');
+                        Route::post('/update/{id}', 'Admin\ElectionController@update')->name('elections.update')
+                            ->middleware('permission:edit-elections');
+                        Route::get('/destroy/{id}', 'Admin\ElectionController@destroy')->name('elections.destroy')
+                            ->middleware('permission:delete-elections');
+
+                    });
+                });
             });
         });
     });

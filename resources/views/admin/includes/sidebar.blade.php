@@ -179,6 +179,41 @@
                 </li>
                 @endif
 
+                @if (Auth::guard('admin')->user()->hasPermission('manage-elections'))
+                <li class="nav-item has-treeview {{(Route::currentRouteName() == 'elections.index' ||
+                                                    Route::currentRouteName() == 'elections.create' ||
+                                                    Route::currentRouteName() == 'elections.show' ||
+                                                    Route::currentRouteName() == 'elections.edit') ? 'menu-open' : ''}}">
+                    <a href="#"
+                        class="nav-link {{(Route::currentRouteName() == 'elections.index' ||
+                                                        Route::currentRouteName() == 'elections.create' ||
+                                                        Route::currentRouteName() == 'elections.show' ||
+                                                        Route::currentRouteName() == 'elections.edit') ? 'active' : ''}}">
+                        <i class="nav-icon fas fa-paper-plane"></i>
+                        <p>
+                            Manage Elections
+                            <i class="right fas fa-angle-left"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('elections.create')}}"
+                                class="nav-link {{(Route::currentRouteName() == 'elections.create') ? 'active' : ''}}">
+                                <i class="fas fa-caret-right nav-icon"></i>
+                                <p>Add Election</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{route('elections.index')}}"
+                                class="nav-link {{(Route::currentRouteName() == 'elections.index') ? 'active' : ''}}">
+                                <i class="fas fa-caret-right nav-icon"></i>
+                                <p>Elections List</p>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                @endif
+
                 @if (permission('manage-complaints'))
                 <li class="nav-header"><b>SETTINGS</b></li>
                 @endif

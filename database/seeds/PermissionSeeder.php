@@ -903,7 +903,7 @@ class PermissionSeeder extends Seeder
                 'type' => 'child',
                 'order' => 20,
             ],
-            
+
             //
             [
                 'name' => 'Add LC License',
@@ -917,7 +917,7 @@ class PermissionSeeder extends Seeder
                 'type' => 'child',
                 'order' => 20,
             ],
-            
+
             [
                 'name' => 'Add LC Ledger',
                 'slug' => 'add_lc_ledger',
@@ -930,7 +930,7 @@ class PermissionSeeder extends Seeder
                 'type' => 'child',
                 'order' => 20,
             ],
-            
+
 
             // Manage GC Lower Court - 21
             [
@@ -994,7 +994,33 @@ class PermissionSeeder extends Seeder
                 'slug' => 'manage_posts',
                 'type' => 'parent',
                 'order' => 25,
-            ]
+            ],
+
+            // Manage Elections - 26
+            [
+                'name' => 'Manage Elections',
+                'slug' => 'manage-elections',
+                'type' => 'parent',
+                'order' => 26,
+            ],
+            [
+                'name' => 'Add Elections',
+                'slug' => 'add-elections',
+                'type' => 'child',
+                'order' => 26,
+            ],
+            [
+                'name' => 'Edit Elections',
+                'slug' => 'edit-elections',
+                'type' => 'child',
+                'order' => 26,
+            ],
+            [
+                'name' => 'Delete Elections',
+                'slug' => 'delete-elections',
+                'type' => 'child',
+                'order' => 26,
+            ],
         ];
 
         foreach ($permission_array as $key => $value) {
