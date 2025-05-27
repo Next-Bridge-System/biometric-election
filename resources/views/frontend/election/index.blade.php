@@ -23,7 +23,7 @@
     <div class="d-flex justify-content-center align-items-center h-100 vw-100 position-relative">
         <!-- Decorations -->
         
-        <img src="{{asset('public/election/assets/logo.png')}}" class="deco deco-logo" alt="Logo">
+        <img src="{{asset('public/admin/images/logo.png')}}" class="deco deco-logo" alt="Logo">
         <img src="{{asset('public/election/assets/backround-left.png')}}" class="deco deco-tl" alt="">
         <img src="{{asset('public/election/assets/background.png')}}" class="deco deco-br" alt="">
 
