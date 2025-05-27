@@ -1,10 +1,12 @@
 function slugify(str) {
   return str.replace(/\s+/g, '-').toLowerCase();
 }
+
 function getLightColor(index) {
   const hue = (index * 47) % 360; // spread hues
   return `hsl(${hue}, 70%, 92%)`;  // light pastel tone
 }
+
 function renderCategoryVoteTable(data) {
 
   const MAX_CANDIDATES = Math.max(...data.map(entry => entry.candidates.length));

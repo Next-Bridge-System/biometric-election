@@ -53,4 +53,9 @@ class ElectionController extends Controller
 
         return view('frontend.election.index', compact('final_candidates'));
     }
+
+    public function submitVote(Request $request)
+    {
+        dd($request->all());
+    }
 }

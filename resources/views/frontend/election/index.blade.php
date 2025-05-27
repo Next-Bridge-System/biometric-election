@@ -134,6 +134,7 @@
 @endsection
 
 @section('scripts')
+
 <script>
     const votingData = @json($final_candidates);
 
@@ -180,7 +181,6 @@
             }
         });
 
-
         $('#submit-multi-vote').off('click').on('click', () => {
             if (!returnedVotingData) {
             console.error('votingData not set');
@@ -193,14 +193,29 @@
             return;
             }
 
-            //  renderFinalReviewTable(returnedVotingData);
-            showStep(5)
+            $.ajax({
+                url: '{{ route("frontend.election.submitVote") }}',
+                method: 'POST',
+                data: formData,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    showStep(6);
+                    console.log('Vote submitted:', response);
+                },
+                error: function(xhr, status, error) {
+                    alert('An error occurred while submitting your vote.');
+                    console.error(error);
+                }
+            });
+            
         });
 
-        $('#submit-final').on('click', () => {
-            console.log('Form Data:', formData);
-            showStep(6);
-        });
+        // $('#submit-final').on('click', () => {
+        //     console.log('Form Data:', formData);
+        //     showStep(6);
+        // });
 
     });
 
