@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Election;
 use App\Http\Controllers\Controller;
+use App\Vote;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 
@@ -63,7 +64,18 @@ class ElectionController extends Controller
      */
     public function show($id)
     {
-        //
+        $election = Election::find($id);
+
+        if ($election == null) {
+            return redirect()->back()->with('error', 'No Record Found.');
+        }
+
+        $votes = $election->votes()
+            ->with(['seat:id,name_english,name_urdu', 'candidate:id,name_english,name_urdu'])
+            ->get()
+            ->groupBy('seat_id');
+
+        return view('admin.elections.show', compact('election', 'votes'));
     }
 
     /**

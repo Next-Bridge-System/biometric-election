@@ -1004,6 +1004,12 @@ class PermissionSeeder extends Seeder
                 'order' => 26,
             ],
             [
+                'name' => 'View Elections',
+                'slug' => 'view-elections',
+                'type' => 'child',
+                'order' => 26,
+            ],
+            [
                 'name' => 'Add Elections',
                 'slug' => 'add-elections',
                 'type' => 'child',

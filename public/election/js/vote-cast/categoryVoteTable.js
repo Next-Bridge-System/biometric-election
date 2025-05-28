@@ -13,16 +13,16 @@ function renderCategoryVoteTable(data) {
   const table = $('#category-vote-table tbody');
   table.empty();
 
-  formData.multiVotes = {}; // reset global
+  formData.votes = []; // reset global
 
   data.forEach((entry, rowIdx) => {
-    const { category, urdu, candidates } = entry;
+    const { category, urdu, candidates, id } = entry;
     const safeId = slugify(category);
     const rowColor = getLightColor(rowIdx);
     const tr = $(`<tr style="background-color: ${rowColor};"></tr>`);
 
     // First: selected candidate name
-    const selectedTd = $(`<td id="selected-${safeId}" class="text-center font-weight-bold">---</td>`);
+    const selectedTd = $(`<td id="selected-${safeId}-${id}" class="text-center font-weight-bold">---</td>`);
     tr.append(selectedTd);
 
     // Left blank padding to push candidates right
@@ -33,7 +33,9 @@ function renderCategoryVoteTable(data) {
     candidates.forEach((candidate, i) => {
       const td = $(`
                     <td class="text-center selectable"
-                        data-row="${safeId}"
+                        data-row="${safeId}-${id}"
+                        data-seat-id="${id}"
+                        data-candidate-id="${candidate.id}"
                         data-category="${category}"
                         data-index="${i}">
                   </td>`);
@@ -69,11 +71,23 @@ function renderCategoryVoteTable(data) {
       /* update left-most cell */
       $(`#selected-${rowId}`).text(candName);
 
-      formData.multiVotes[category] = {
-        candidateIndex: index,
-        candidateName: candName,
-        image: $(this).find('img').attr('src')
-      };
+      const seatId = $(this).data('seat-id');
+      const candidateId = $(this).data('candidate-id');
+
+      const existingVote = formData.votes.find(vote => vote.seat_id === seatId);
+
+      if (existingVote) {
+        existingVote.candidate_id = candidateId;
+        existingVote.candidate_name = candName;
+      } else {
+        formData.votes.push({
+          seat_id: seatId,
+          seat_name: category,
+          candidate_id: candidateId,
+          candidate_name: candName,
+        });
+      }
+
     });
 
 

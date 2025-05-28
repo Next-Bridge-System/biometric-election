@@ -187,7 +187,10 @@
             return;
             }
 
-            const missing = returnedVotingData.filter(entry => !formData.multiVotes[entry.category]);
+            const missing = returnedVotingData.filter(entry => {
+                return !formData.votes.some(vote => vote.seat_id === entry.id);
+            });
+
             if (missing.length > 0) {
             alert(`Please select a candidate for: ${missing.map(e => e.category).join(', ')}`);
             return;
@@ -209,7 +212,7 @@
                     console.error(error);
                 }
             });
-            
+
         });
 
         // $('#submit-final').on('click', () => {

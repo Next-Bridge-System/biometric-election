@@ -12,4 +12,9 @@ class Election extends Model
     {
         return $this->belongsTo(Admin::class, 'created_by');
     }
+
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
 }

@@ -11,6 +11,7 @@ class ElectionController extends Controller
     public function index()
     {
         $candidateData = Candidate::select(
+            'candidates.id as candidate_id',
             'candidates.name_english as candidate_name_eng',
             'candidates.name_urdu as candidate_name_urdu',
             'seats.id as seat_id',
@@ -33,6 +34,7 @@ class ElectionController extends Controller
             // If the seat is not already added, initialize it
             if (!isset($finalData[$seatId])) {
                 $finalData[$seatId] = [
+                    'id' => $candidate->seat_id,
                     'category' => $candidate->seat_name_english,
                     'urdu' => $candidate->seat_name_urdu,
                     'candidates' => []
@@ -41,6 +43,7 @@ class ElectionController extends Controller
 
             // Add candidate to the seat's candidates list
             $finalData[$seatId]['candidates'][] = [
+                'id' => $candidate->candidate_id,
                 'name' => $candidate->candidate_name_eng,
                 'image' => $candidate->candidate_name_urdu,
             ];
@@ -48,8 +51,6 @@ class ElectionController extends Controller
 
         // Re-index the array to get a clean list
         $final_candidates = array_values($finalData);
-
-        // dd($final_candidates);
 
         return view('frontend.election.index', compact('final_candidates'));
     }

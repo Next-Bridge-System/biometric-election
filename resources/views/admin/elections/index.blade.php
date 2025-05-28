@@ -70,6 +70,10 @@
                                                         <span class="badge badge-primary"><i class="far fa-edit mr-1"
                                                                 aria-hidden="true"></i>Edit</span>
                                                     </a>
+                                                    <a href="{{ route('elections.show', $election->id) }}">
+                                                        <span class="badge badge-info"><i class="fas fa-eye mr-1"
+                                                                aria-hidden="true"></i>View</span>
+                                                    </a>
                                                     {{-- <a href="{{ route('elections.destroy', $election->id) }}">
                                                         <span class="badge badge-danger"><i class="fas fa-trash mr-1"
                                                                 aria-hidden="true"></i>Delete</span>
