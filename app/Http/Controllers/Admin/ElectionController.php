@@ -70,6 +70,7 @@ class ElectionController extends Controller
             return redirect()->back()->with('error', 'No Record Found.');
         }
 
+        $election->loadCount('votes');
         $votes = $election->votes()
             ->with(['seat:id,name_english,name_urdu', 'candidate:id,name_english,name_urdu'])
             ->get()
