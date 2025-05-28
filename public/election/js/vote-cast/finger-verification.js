@@ -18,13 +18,14 @@ function SuccessFunc1(result) {
         }
         else {
             swal.fire({
-                title: 'Device Scanner Turned Off',
-                text: 'Please click the button to restart the scanning process.',
+                title: 'Session Out',
+                text: 'Please click the button to restart the voting process.',
                 icon: 'error',
             });
+            showStep(0);
         }
     } catch (error) {
-       console.log(error)
+        console.log(error)
     }
 }
 
@@ -38,8 +39,6 @@ function ErrorFunc(status) {
 
 function CallSGIFPGetData(successCall, failCall) {
 
-    console.log(templates_2, 'savedfingers');
-
     var uri = "https://localhost:8443/SGIFPCapture";
     var XML_HTTP = new XMLHttpRequest();
     XML_HTTP.onreadystatechange = function () {
@@ -51,10 +50,12 @@ function CallSGIFPGetData(successCall, failCall) {
             failCall(XML_HTTP.status)
         }
     }
+
     XML_HTTP.onerror = function () {
         failCall(XML_HTTP.status);
     }
-    var params = "Timeout=" + "10000";
+
+    var params = "Timeout=" + "30000";
     params += "&Quality=" + "50";
     // params += "&licstr=" + encodeURIComponent(secugen_lic);
     params += "&templateFormat=" + "ISO";

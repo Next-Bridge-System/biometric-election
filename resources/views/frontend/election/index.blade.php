@@ -25,9 +25,9 @@
                 <img src="{{asset('public/election/assets/QR.png')}}" alt="Scan QR" class="img-fluid"
                     style="max-width:200px;">
             </div>
-            <div class="d-flex justify-content-end">
+            {{-- <div class="d-flex justify-content-end">
                 <button class="btn btn-green ml-auto next-btn"><i class="fa-solid fa-arrow-right"></i></button>
-            </div>
+            </div> --}}
         </div>
 
         <div class="vote-step d-none" data-step="2">
@@ -39,10 +39,10 @@
                     style="width: 90px; margin-bottom: 1rem;">
             </div>
 
-            <div class="d-flex justify-content-between mt-4">
+            {{-- <div class="d-flex justify-content-between mt-4">
                 <button class="btn btn-secondary back-btn"><i class="fa-solid fa-arrow-left"></i></button>
                 <button class="btn btn-green next-btn"><i class="fa-solid fa-arrow-right"></i></button>
-            </div>
+            </div> --}}
         </div>
 
         <div class="vote-step d-none" data-step="3">
@@ -65,7 +65,7 @@
                     </div>
                 </div>
                 <div class="d-flex justify-content-between mt-4">
-                    <button class="btn btn-secondary back-btn"><i class="fa-solid fa-arrow-left"></i></button>
+                    {{-- <button class="btn btn-secondary back-btn"><i class="fa-solid fa-arrow-left"></i></button> --}}
                     <button class="btn btn-green next-btn "><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
 
