@@ -10,8 +10,10 @@
     <link rel="stylesheet" href="{{asset('public/election/css/bootstrap.min.css')}}" />
     <link rel="stylesheet" href="{{asset('public/election/css/index/index.css')}}" />
     <link rel="stylesheet" href="{{asset('public/election/css/vote-cast/categoryVoteTable.css')}}">
-
     <link rel="stylesheet" href="../css/vote-cast/categoryVoteTable.css">
+
+    <link rel="stylesheet" href="{{asset('public/admin/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -64,6 +66,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
         integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous">
     </script>
+
+    <script src="{{asset('public/admin/plugins/sweetalert2/sweetalert2.min.js')}}"></script>
 
     @yield('scripts')
 

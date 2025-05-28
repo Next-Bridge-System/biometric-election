@@ -6,10 +6,20 @@
 
     <!-- Screens -->
     <div id="vote-steps">
-        <div class="vote-step " data-step="0">
+
+        <div class="vote-step" data-step="0">
+            <h4 class="mb-3 font-weight-bold">Welcome to</h4>
+            <h5 class="mb-2">Biometric Election System</h5>
+            <img src="{{asset('public/election/assets/fingerprint.png')}}" class="my-5" alt="" style="width: 200px;">
+            <h5 class="mb-4">بائیو میٹرک الیکشن سسٹم</h5>
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-green ml-auto next-btn"><i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+        </div>
+
+        <div class="vote-step d-none" data-step="1">
             <h5 class="mb-3 text-center">Scan Your CNIC</h5>
-            <input id="cnic-scan" type="text" class="form-control mb-3" placeholder="1234-1234567-1"
-                value="1234-1234567-1">
+            <input id="cnic-scan" type="text" class="form-control mb-3" placeholder="1234-1234567-1" value="">
             <div id="cnic-error" class="text-danger d-none my-3">براہ کرم درست CNIC درج کریں۔</div>
             <div class="text-center mb-3">
                 <img src="{{asset('public/election/assets/QR.png')}}" alt="Scan QR" class="img-fluid"
@@ -20,23 +30,12 @@
             </div>
         </div>
 
-        <div class="vote-step d-none" data-step="1">
-            <h4 class="mb-3 font-weight-bold">Welcome to</h4>
-            <h5 class="mb-2">Biometric Election System</h5>
-            <img src="{{asset('public/election/assets/fingerprint.png')}}" class="my-5" alt="" style="width: 200px;">
-            <h5 class="mb-4">بائیو میٹرک الیکشن سسٹم</h5>
-            <div class="d-flex justify-content-end">
-                <button class="btn btn-green ml-auto next-btn"><i class="fa-solid fa-arrow-right"></i></button>
-            </div>
-        </div>
-
-
         <div class="vote-step d-none" data-step="2">
             <h4 class="mb-3 font-weight-bold">Scan your Fingerprint</h4>
             <h5 class="mb-4">اپنی بایومیٹرک تصدیق کریں</h5>
 
             <div class="d-flex justify-content-center align-items-center flex-column">
-                <img src="{{asset('public/election/assets/FingerScan.png')}}" alt="Fingerprint"
+                <img id="FPImage1" src="{{asset('public/election/assets/FingerScan.png')}}" alt="Fingerprint"
                     style="width: 90px; margin-bottom: 1rem;">
             </div>
 
@@ -53,14 +52,14 @@
             <div class=" p-3 rounded text-left bg-white position-relative">
                 <div class="row align-items-center">
                     <div class="col-sm-7">
-                        <p class="mb-1"><strong>Name:</strong> <span id="voter-name">Sample</span></p>
-                        <p class="mb-1"><strong>CNIC:</strong> <span id="voter-cnic">123-12321-12</span></p>
-                        <p class="mb-1"><strong>Voter ID:</strong> <span id="voter-id">12323</span></p>
+                        <p class="mb-1"><strong>Name:</strong> <span id="voter-name"></span></p>
+                        <p class="mb-1"><strong>CNIC:</strong> <span id="voter-cnic"></span></p>
+                        <p class="mb-1"><strong>Voter ID:</strong> <span id="voter-id"></span></p>
                         <h6 class="mt-3 mb-0 text-success">Biometric verification has been done.</h6>
                         <p class="mb-0">آپ کی بایومیٹرک تصدیق ہو گئی ہے</p>
                     </div>
                     <div class="col-sm-5 rounded text-center shadow ">
-                        <img id="voter-photo" src="{{asset('public/election/assets/face.png')}}" alt="Voter Photo"
+                        <img id="voter-photo" src="" alt="Voter Photo"
                             class="img-fluid rounded" style="max-width: 180px;">
                         <div class="btn-circle btn-success mt-2"><i class="fa-solid fa-check"></i></div>
                     </div>
@@ -137,6 +136,7 @@
 
 <script>
     const votingData = @json($final_candidates);
+    var savedFingerTemplates = [];
 
     $(document).ready(function () {
 
@@ -145,39 +145,75 @@
         let current = 0;
         const steps = $('.vote-step');
 
-        function showStep(index) {
+        window.showStep = function(index) {
             steps.addClass('d-none');
             steps.eq(index).removeClass('d-none');
+
+            if (index === 2) {
+                fingerprintVerification();
+            }
+            if (index === 3) {
+                fetchVerifiedVoterData();
+            }
         }
 
         function collectData(step) {
             if (step === 0) {
-            formData.cnic = $('#cnic-scan').val().trim();
+                formData.cnic = $('#cnic-scan').val().trim();
             }
         }
 
-
         $('.next-btn').on('click', function () {
-
             if (!validateStep(current)) return;
-
             collectData(current);
 
-            if (current === 2) {
-
-            returnedVotingData = renderCategoryVoteTable(votingData);
-
+            if (current === 2) {                
+                returnedVotingData = renderCategoryVoteTable(votingData);
             }
 
             current++;
             showStep(current);
         });
 
-
         $('.back-btn').on('click', function () {
             if (current > 0) {
-            current--;
-            showStep(current);
+                current--;
+                showStep(current);
+            }
+        });
+        
+        $('#cnic-scan').on('keyup', function () {
+            const cnic = $(this).val().replace(/-/g, '');
+            if (cnic.length === 13) {
+                $.ajax({
+                    url: '{{ route("frontend.election.fetchSavedFingerTemplates") }}',
+                    method: 'POST',
+                    data: { cnic_no: cnic },
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        savedFingerTemplates.length = 0;
+                        if (Array.isArray(response)) {
+                            response.forEach(function(bio) {
+                                savedFingerTemplates.push({
+                                    id: bio.id,
+                                    template: bio.template_2,
+                                    finger_name: bio.finger_name
+                                });
+                            });
+                        }
+                        
+                        $('#cnic-error').addClass('d-none');
+                        current = 2;
+                        showStep(current);
+                    },
+                    error: function(xhr, status, error) {
+                        alert('error');
+                    }
+                });                
+            } else {
+                $('#cnic-error').addClass('d-none');
             }
         });
 
@@ -212,6 +248,36 @@
             
         });
 
+        function fingerprintVerification()
+        {
+            CallSGIFPGetData(SuccessFunc1, ErrorFunc);
+        }
+        
+        function fetchVerifiedVoterData()
+        {
+            // Remove alert for production use
+            const cnic = $('#cnic-scan').val().replace(/-/g, '');
+            $.ajax({
+            url: '{{ route("frontend.election.fetchVerifiedVoterData") }}',
+            method: 'POST',
+            data: { cnic_no: cnic },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                $('#voter-name').text(response.name || '');
+                $('#voter-cnic').text(response.cnic_no || '');
+                $('#voter-id').text(response.id || '');
+                if(response.webcam_image_path){
+                    $('#voter-photo').attr('src', '{{ asset("storage/app/public") }}/' + response.webcam_image_path.replace(/^public\//, ''));
+                }
+            },
+            error: function(xhr, status, error) {
+                alert('fetchVerifiedVoterData error');
+            }
+            });
+        }
+
         // $('#submit-final').on('click', () => {
         //     console.log('Form Data:', formData);
         //     showStep(6);
@@ -220,4 +286,7 @@
     });
 
 </script>
+
+<script src="{{asset('public/election/js/vote-cast/finger-verification.js')}}"></script>
+
 @endsection

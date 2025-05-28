@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Frontend;
 
+use App\Biometric;
 use App\Candidate;
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\Request;
 
 class ElectionController extends Controller
@@ -52,6 +54,23 @@ class ElectionController extends Controller
         // dd($final_candidates);
 
         return view('frontend.election.index', compact('final_candidates'));
+    }
+
+    public function fetchSavedFingerTemplates(Request $request)
+    {
+        $cleanCnic = str_replace('-', '', $request->cnic_no);
+        $biometrics = Biometric::select('id', 'user_id', 'finger_id', 'finger_name', 'template_2')
+            ->whereRaw('REPLACE(cnic_no, "-", "") = ?', [$cleanCnic])->get();
+
+        return response()->json($biometrics);
+    }
+
+    public function fetchVerifiedVoterData(Request $request)
+    {
+        $cleanCnic = str_replace('-', '', $request->cnic_no);
+        $user = User::where('clean_cnic_no', $cleanCnic)->first();
+
+        return response()->json($user);
     }
 
     public function submitVote(Request $request)
