@@ -59,8 +59,8 @@
                         <p class="mb-0">آپ کی بایومیٹرک تصدیق ہو گئی ہے</p>
                     </div>
                     <div class="col-sm-5 rounded text-center shadow ">
-                        <img id="voter-photo" src="" alt="Voter Photo"
-                            class="img-fluid rounded" style="max-width: 180px;">
+                        <img id="voter-photo" src="" alt="Voter Photo" class="img-fluid rounded"
+                            style="max-width: 180px;">
                         <div class="btn-circle btn-success mt-2"><i class="fa-solid fa-check"></i></div>
                     </div>
                 </div>
@@ -120,7 +120,7 @@
         </div> --}}
 
         <!-- Step : Confirmation -->
-        <div class="vote-step d-none" data-step="6">
+        <div class="vote-step d-none" data-step="5">
             <h4 class="mb-3 text-success"> Vote Submitted Successfully!</h4>
             <h5 class="mb-3">آپ کا ووٹ کامیابی سے درج ہو چکا ہے۔</h5>
             <div class="btn-circle btn-success mx-auto my-3">&#10003;</div>
@@ -219,8 +219,8 @@
 
         $('#submit-multi-vote').off('click').on('click', () => {
             if (!returnedVotingData) {
-            console.error('votingData not set');
-            return;
+                console.error('votingData not set');
+                return;
             }
 
             const missing = returnedVotingData.filter(entry => {
@@ -228,8 +228,12 @@
             });
 
             if (missing.length > 0) {
-            alert(`Please select a candidate for: ${missing.map(e => e.category).join(', ')}`);
-            return;
+                swal.fire({
+                    title: 'Selection Required',
+                    text: `Please select a candidate for the following categories: ${missing.map(e => e.category).join(', ')}`,
+                    icon: 'warning',
+                });
+                return;
             }
 
             $.ajax({
@@ -240,11 +244,9 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 success: function(response) {
-                    showStep(6);
-                    console.log('Vote submitted:', response);
+                    showStep(5);
                 },
                 error: function(xhr, status, error) {
-                    alert('An error occurred while submitting your vote.');
                     console.error(error);
                 }
             });
@@ -253,6 +255,13 @@
 
         function fingerprintVerification()
         {
+            const cnic = $('#cnic-scan').val().replace(/-/g, '');
+            if (!cnic || cnic.length !== 13) {
+                current = 1;
+                showStep(current);
+                return;
+            }
+
             CallSGIFPGetData(SuccessFunc1, ErrorFunc);
         }
         
