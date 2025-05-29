@@ -182,48 +182,69 @@
             }
         });
 
-        let scanBuffer = '';
-        let scanTimer = null;
+        // $('#cnic-scan').on('keyup', function (e) {
+        //     const cnic = $(this).val().replace(/-/g, '');
 
-        $('#cnic-scan').on('keyup', function (e) {
+        //     console.log(cnic);
 
-            console.log('e.key:', e.key);
+        //     if (cnic.length === 13) {
+        //         $.ajax({
+        //             url: '{{ route("frontend.election.fetchSavedFingerTemplates") }}',
+        //             method: 'POST',
+        //             data: { cnic_no: cnic },
+        //             headers: {
+        //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //             },
+        //             success: function (response) {
+        //                 alert('success');
 
-            // if (e.ctrlKey && e.key === 'f') {
-            //     e.preventDefault();
-            //     return false;
-            // }
+        //                 savedFingerTemplates.length = 0;
+        //                 if (Array.isArray(response)) {
+        //                     response.forEach(function (bio) {
+        //                         savedFingerTemplates.push({
+        //                             id: bio.id,
+        //                             template: bio.template_2,
+        //                             finger_name: bio.finger_name
+        //                         });
+        //                     });
+        //                 }
 
-            // // Optionally block Enter key
-            // if (e.key === 'Enter') {
-            //     e.preventDefault();
-            //     return false;
-            // }
+        //                 $('#cnic-error').addClass('d-none');
+        //                 // current = 2;
+        //                 // showStep(current);
+        //             },
+        //             error: function () {
+        //                 alert('Failed to fetch fingerprint data.');
+        //             }
+        //         });
+        //     } else {
+        //         $('#cnic-error').removeClass('d-none').text('Invalid CNIC scanned.');
+        //     }
+        // });
 
-            const inputChar = String.fromCharCode(e.which || e.keyCode);
+       let cnicScanTimeout;
 
-            // Ignore non-printable characters (e.g., Shift, Ctrl, etc.)
-            if (e.which < 32) return;
+        $('#cnic-scan').on('input', function () {
+            clearTimeout(cnicScanTimeout);
 
-            // Append character to buffer
-            scanBuffer += inputChar;
+            cnicScanTimeout = setTimeout(function () {
+                const inputVal = $('#cnic-scan').val().replace(/-/g, '');
 
-            // Reset timer
-            clearTimeout(scanTimer);
+                let cnic;
 
-            // Wait for typing to stop for 200ms (scanner types fast)
-            scanTimer = setTimeout(() => {
-                const extractedCnic = extractCnicFromScan(scanBuffer);
+                // If scanned string is longer than 25 chars, extract CNIC
+                if (inputVal.length > 25) {
+                    cnic = inputVal.substring(12, 25);
+                    $('#cnic-scan').val(cnic); // Only override when scanned
+                } else {
+                    cnic = inputVal; // Use user input directly
+                }
 
-                if (extractedCnic) {
-                    // Clear buffer for next scan
-                    scanBuffer = '';
-
-                    // Make AJAX call
+                if (cnic.length === 13) {
                     $.ajax({
                         url: '{{ route("frontend.election.fetchSavedFingerTemplates") }}',
                         method: 'POST',
-                        data: { cnic_no: extractedCnic },
+                        data: { cnic_no: cnic },
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         },
@@ -239,9 +260,10 @@
                                 });
                             }
 
-                            $('#cnic-error').addClass('d-none');
                             current = 2;
                             showStep(current);
+
+                            $('#cnic-error').addClass('d-none');
                         },
                         error: function () {
                             alert('Failed to fetch fingerprint data.');
@@ -250,23 +272,23 @@
                 } else {
                     $('#cnic-error').removeClass('d-none').text('Invalid CNIC scanned.');
                 }
-            }, 200);
+            }, 300);
         });
 
-        function extractCnicFromScan(scanStr) {
+        function extractCnicFromScan(scanCNIC) {
 
             let cnic = null;
             // If the string contains letters (old format)
-                if (/[A-Za-z]/.test(scanStr)) {
-                    const matches = scanStr.matchAll(/(\d{13})(?=[A-Za-z])/g);
+                if (/[A-Za-z]/.test(scanCNIC)) {
+                    const matches = scanCNIC.matchAll(/(\d{13})(?=[A-Za-z])/g);
                     const lastMatch = Array.from(matches).pop();
 
                     cnic = lastMatch?.[1] || null;
                 }
                 // If the string is all numbers (new format)
-                else if (/^\d+$/.test(scanStr)) {
+                else if (/^\d+$/.test(scanCNIC)) {
                     // Remove last character, then get last 13 characters
-                    const withoutLastChar = scanStr.slice(0, -1);
+                    const withoutLastChar = scanCNIC.slice(0, -1);
                     cnic = withoutLastChar.slice(-13);
                 }
 
