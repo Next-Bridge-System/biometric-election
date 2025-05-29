@@ -19,7 +19,7 @@
 
         <div class="vote-step d-none" data-step="1">
             <h5 class="mb-3 text-center">Scan Your CNIC</h5>
-            <input id="cnic-scan" type="text" class="form-control mb-3" placeholder="1234-1234567-1" value="">
+            <input id="cnic-scan" type="text" class="form-control mb-3" placeholder="123412345671" value="">
             <div id="cnic-error" class="text-danger d-none my-3">براہ کرم درست CNIC درج کریں۔</div>
             <div class="text-center mb-3">
                 <img src="{{asset('public/election/assets/QR.png')}}" alt="Scan QR" class="img-fluid"
@@ -167,7 +167,7 @@
             if (!validateStep(current)) return;
             collectData(current);
 
-            if (current === 2) {                
+            if (current === 2) {
                 returnedVotingData = renderCategoryVoteTable(votingData);
             }
 
@@ -181,41 +181,87 @@
                 showStep(current);
             }
         });
-        
-        $('#cnic-scan').on('keyup', function () {
-            const cnic = $(this).val().replace(/-/g, '');
-            if (cnic.length === 13) {
-                $.ajax({
-                    url: '{{ route("frontend.election.fetchSavedFingerTemplates") }}',
-                    method: 'POST',
-                    data: { cnic_no: cnic },
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(response) {
-                        savedFingerTemplates.length = 0;
-                        if (Array.isArray(response)) {
-                            response.forEach(function(bio) {
-                                savedFingerTemplates.push({
-                                    id: bio.id,
-                                    template: bio.template_2,
-                                    finger_name: bio.finger_name
+
+        let scanBuffer = '';
+        let scanTimer = null;
+
+        $('#cnic-scan').on('keyup', function (e) {
+            const inputChar = String.fromCharCode(e.which || e.keyCode);
+
+            // Ignore non-printable characters (e.g., Shift, Ctrl, etc.)
+            if (e.which < 32) return;
+
+            // Append character to buffer
+            scanBuffer += inputChar;
+
+            // Reset timer
+            clearTimeout(scanTimer);
+
+            // Wait for typing to stop for 200ms (scanner types fast)
+            scanTimer = setTimeout(() => {
+                const extractedCnic = extractCnicFromScan(scanBuffer);
+
+                console.log('Extracted CNIC:', extractedCnic);
+
+                if (extractedCnic) {
+                    // Clear buffer for next scan
+                    scanBuffer = '';
+
+                    // Make AJAX call
+                    $.ajax({
+                        url: '{{ route("frontend.election.fetchSavedFingerTemplates") }}',
+                        method: 'POST',
+                        data: { cnic_no: extractedCnic },
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function (response) {
+                            savedFingerTemplates.length = 0;
+                            if (Array.isArray(response)) {
+                                response.forEach(function (bio) {
+                                    savedFingerTemplates.push({
+                                        id: bio.id,
+                                        template: bio.template_2,
+                                        finger_name: bio.finger_name
+                                    });
                                 });
-                            });
+                            }
+
+                            $('#cnic-error').addClass('d-none');
+                            current = 2;
+                            showStep(current);
+                        },
+                        error: function () {
+                            alert('Failed to fetch fingerprint data.');
                         }
-                        
-                        $('#cnic-error').addClass('d-none');
-                        current = 2;
-                        showStep(current);
-                    },
-                    error: function(xhr, status, error) {
-                        alert('error');
-                    }
-                });                
-            } else {
-                $('#cnic-error').addClass('d-none');
-            }
+                    });
+                } else {
+                    $('#cnic-error').removeClass('d-none').text('Invalid CNIC scanned.');
+                }
+            }, 200);
         });
+
+        function extractCnicFromScan(scanStr) {
+
+            let cnic = null;
+            // If the string contains letters (old format)
+                if (/[A-Za-z]/.test(scanStr)) {
+                    const matches = scanStr.matchAll(/(\d{13})(?=[A-Za-z])/g);
+                    const lastMatch = Array.from(matches).pop();
+
+                    cnic = lastMatch?.[1] || null;
+                }
+                // If the string is all numbers (new format)
+                else if (/^\d+$/.test(scanStr)) {
+                    // Remove last character, then get last 13 characters
+                    const withoutLastChar = scanStr.slice(0, -1);
+                    cnic = withoutLastChar.slice(-13);
+                }
+
+                $('#cnic-scan').val(cnic);
+
+                return cnic;
+        }
 
         $('#submit-multi-vote').off('click').on('click', () => {
             if (!returnedVotingData) {
@@ -264,7 +310,7 @@
 
             CallSGIFPGetData(SuccessFunc1, ErrorFunc);
         }
-        
+
         function fetchVerifiedVoterData()
         {
             // Remove alert for production use
