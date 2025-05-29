@@ -15,9 +15,10 @@ class CreateVotesTable extends Migration
     {
         Schema::create('votes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('election_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('seat_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
-            $table->foreignId('candidate_id')->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->string('cnic', 15)->index();
+            $table->foreignId('election_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('seat_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
+            $table->foreignId('candidate_id')->nullable()->constrained()->cascadeOnUpdate()->cascadeOnDelete();
             $table->timestamps();
         });
     }

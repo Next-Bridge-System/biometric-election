@@ -63,7 +63,11 @@ class ElectionController extends Controller
         $biometrics = Biometric::select('id', 'user_id', 'finger_id', 'finger_name', 'template_2')
             ->whereRaw('REPLACE(cnic_no, "-", "") = ?', [$cleanCnic])->get();
 
-        return response()->json($biometrics);
+        if ($biometrics->count() >= 2) {
+            return response()->json($biometrics);
+        }
+
+        return response()->json(null, 404);
     }
 
     public function fetchVerifiedVoterData(Request $request)

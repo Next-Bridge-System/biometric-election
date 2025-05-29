@@ -19,7 +19,7 @@
 
         <div class="vote-step d-none" data-step="1">
             <h5 class="mb-3 text-center">Scan Your CNIC</h5>
-            <input id="cnic-scan" type="text" class="form-control mb-3" placeholder="123412345671" value="" autofocus>
+            <input id="cnic-scan" type="text" class="form-control mb-3" placeholder="123412345671" value="" autocomplete="off" autofocus>
             <div id="cnic-error" class="text-danger d-none my-3">براہ کرم درست CNIC درج کریں۔</div>
             <div class="text-center mb-3">
                 <img src="{{asset('public/election/assets/QR.png')}}" alt="Scan QR" class="img-fluid"
@@ -157,15 +157,25 @@
             }
         }
 
-        function collectData(step) {
-            if (step === 0) {
-                formData.cnic = $('#cnic-scan').val().trim();
-            }
+        // function collectData(step) {
+        //     if (step === 0) {
+        //         formData.cnic = $('#cnic-scan').val().trim();
+        //         // focusCnicInput();
+        //     }
+        // }
+
+        function focusCnicInput() {
+            setTimeout(() => {
+                const $input = $('#cnic-scan');
+                if ($input.is(':visible')) {
+                    $input.focus();
+                }
+            }, 100);
         }
 
         $('.next-btn').on('click', function () {
             if (!validateStep(current)) return;
-            collectData(current);
+            // collectData(current);
 
             if (current === 2) {
                 returnedVotingData = renderCategoryVoteTable(votingData);
@@ -173,6 +183,10 @@
 
             current++;
             showStep(current);
+
+            if (current === 1) {
+                focusCnicInput();
+            }
         });
 
         $('.back-btn').on('click', function () {
@@ -184,8 +198,6 @@
 
         // $('#cnic-scan').on('keyup', function (e) {
         //     const cnic = $(this).val().replace(/-/g, '');
-
-        //     console.log(cnic);
 
         //     if (cnic.length === 13) {
         //         $.ajax({
@@ -264,6 +276,7 @@
                             showStep(current);
 
                             $('#cnic-error').addClass('d-none');
+                            formData.cnic = cnic;
                         },
                         error: function () {
                             alert('Failed to fetch fingerprint data.');
@@ -275,62 +288,40 @@
             }, 300);
         });
 
-        function extractCnicFromScan(scanCNIC) {
-
-            let cnic = null;
-            // If the string contains letters (old format)
-                if (/[A-Za-z]/.test(scanCNIC)) {
-                    const matches = scanCNIC.matchAll(/(\d{13})(?=[A-Za-z])/g);
-                    const lastMatch = Array.from(matches).pop();
-
-                    cnic = lastMatch?.[1] || null;
-                }
-                // If the string is all numbers (new format)
-                else if (/^\d+$/.test(scanCNIC)) {
-                    // Remove last character, then get last 13 characters
-                    const withoutLastChar = scanCNIC.slice(0, -1);
-                    cnic = withoutLastChar.slice(-13);
-                }
-
-                $('#cnic-scan').val(cnic);
-
-                return cnic;
-        }
-
         $('#submit-multi-vote').off('click').on('click', () => {
             if (!returnedVotingData) {
                 console.error('votingData not set');
                 return;
             }
 
-            const missing = returnedVotingData.filter(entry => {
-                return !formData.votes.some(vote => vote.seat_id === entry.id);
-            });
-
-            if (missing.length > 0) {
-                swal.fire({
-                    title: 'Selection Required',
-                    text: `Please select a candidate for the following categories: ${missing.map(e => e.category).join(', ')}`,
-                    icon: 'warning',
-                });
-                return;
-            }
-
-            $.ajax({
-                url: '{{ route("frontend.election.submitVote") }}',
-                method: 'POST',
-                data: formData,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                    showStep(5);
-                },
-                error: function(xhr, status, error) {
-                    console.error(error);
+            Swal.fire({
+                title: 'Are you sure?',
+                text: 'Are you sure you want to continue?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, continue',
+                cancelButtonText: 'No, go back'
+            }).then((result) => {
+                if (result.value) {
+                    $.ajax({
+                        url: '{{ route("frontend.election.submitVote") }}',
+                        method: 'POST',
+                        data: formData,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            showStep(5);
+                            setTimeout(() => {
+                                location.reload();
+                            }, 3000);
+                        },
+                        error: function(xhr, status, error) {
+                            console.error(error);
+                        }
+                    });
                 }
             });
-
         });
 
         function fingerprintVerification()
@@ -371,7 +362,6 @@
         }
 
         // $('#submit-final').on('click', () => {
-        //     console.log('Form Data:', formData);
         //     showStep(6);
         // });
 

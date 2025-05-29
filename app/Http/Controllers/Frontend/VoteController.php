@@ -12,19 +12,28 @@ class VoteController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'votes' => 'required|array',
-            'votes.*.seat_id' => 'required|exists:seats,id',
-            'votes.*.candidate_id' => 'required|exists:candidates,id',
+            'cnic' => 'required|string|max:15',
+            'votes' => 'nullable|array',
+            'votes.*.seat_id' => 'nullable|exists:seats,id',
+            'votes.*.candidate_id' => 'nullable|exists:candidates,id',
         ]);
 
         $votesData = [];
-        $electionId = Seat::where('id', $request->votes[0]['seat_id'])->first()->election_id;
+        $seatId = isset($request->votes[0]['seat_id']) ? $request->votes[0]['seat_id'] : null;
+        $seat = null;
 
-        foreach ($request->votes as $vote) {
+        if ($seatId) {
+            $seat = Seat::where('id', $seatId)->first();
+        }
+
+        foreach ($request->votes ?? [] as $vote) {
             $votesData[] = [
-                'election_id' => $electionId,
-                'seat_id' => $vote['seat_id'],
-                'candidate_id' => $vote['candidate_id'],
+                'cnic' => $request->cnic,
+                'election_id' => $seat ? $seat->election_id : $seat,
+                'seat_id' => data_get($vote, 'seat_id'),
+                'candidate_id' => data_get($vote, 'candidate_id'),
+                'created_at' => now(),
+                'updated_at' => now(),
             ];
         }
 
