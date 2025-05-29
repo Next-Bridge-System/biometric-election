@@ -19,7 +19,7 @@
 
         <div class="vote-step d-none" data-step="1">
             <h5 class="mb-3 text-center">Scan Your CNIC</h5>
-            <input id="cnic-scan" type="text" class="form-control mb-3" placeholder="123412345671" value="">
+            <input id="cnic-scan" type="text" class="form-control mb-3" placeholder="123412345671" value="" autofocus>
             <div id="cnic-error" class="text-danger d-none my-3">براہ کرم درست CNIC درج کریں۔</div>
             <div class="text-center mb-3">
                 <img src="{{asset('public/election/assets/QR.png')}}" alt="Scan QR" class="img-fluid"
@@ -186,6 +186,20 @@
         let scanTimer = null;
 
         $('#cnic-scan').on('keyup', function (e) {
+
+            console.log('e.key:', e.key);
+
+            // if (e.ctrlKey && e.key === 'f') {
+            //     e.preventDefault();
+            //     return false;
+            // }
+
+            // // Optionally block Enter key
+            // if (e.key === 'Enter') {
+            //     e.preventDefault();
+            //     return false;
+            // }
+
             const inputChar = String.fromCharCode(e.which || e.keyCode);
 
             // Ignore non-printable characters (e.g., Shift, Ctrl, etc.)
@@ -200,8 +214,6 @@
             // Wait for typing to stop for 200ms (scanner types fast)
             scanTimer = setTimeout(() => {
                 const extractedCnic = extractCnicFromScan(scanBuffer);
-
-                console.log('Extracted CNIC:', extractedCnic);
 
                 if (extractedCnic) {
                     // Clear buffer for next scan

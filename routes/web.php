@@ -313,3 +313,5 @@ Route::post('sendMessage/{type?}', 'SendMessageController@sendMessage')->name('s
 // Route::post('signature', [SignatureController::class, 'upload'])->name('signature.upload');
 // Route::get('print-text', [SignatureController::class, 'print']);/
 // Route::get('generate-pdf', [ReportController::class, 'generateAndDownloadPdf']);
+
+Route::get('print-test', 'PrintController@printTest')->name('print.test');
