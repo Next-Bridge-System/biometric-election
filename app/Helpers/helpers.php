@@ -13,6 +13,9 @@ use App\LowerCourt;
 use App\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Mike42\Escpos\CapabilityProfile;
+use Mike42\Escpos\Printer;
+use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 
 if (!function_exists('getAdminName')) {
     function getAdminName($id)
@@ -104,7 +107,7 @@ if (!function_exists('getVoucherAmount')) {
         } else {
             $final_date = $application->created_at;
         }
-        
+
         $degree_amount = 0;
         if (isset($application->degree_place)) {
             if ($application->degree_place == 1) {
@@ -1778,5 +1781,44 @@ if (!function_exists('generalSearchQuery')) {
         $records = $user->unionAll($intimation)->unionAll($lc)->unionAll($gc_lc)->unionAll($hc)->unionAll($gc_hc);
 
         return $records;
+    }
+
+    if (!function_exists('printReceipt')) {
+        function printReceipt(User $user)
+        {
+            try {
+                $profile = CapabilityProfile::load("simple");
+
+                // Use the exact shared name of your printer from Windows
+                $connector = new WindowsPrintConnector("EPSON_TM_T88V");
+                $printer = new Printer($connector, $profile);
+
+                $printer->setJustification(Printer::JUSTIFY_CENTER);
+                $printer->setTextSize(2, 2);
+                $printer->text("Biometric Elections Software\n");
+                $printer->feed(4);
+                $printer->setTextSize(1, 1);
+                $printer->setEmphasis(true);
+                $printer->text("Token No: $user->id\n");
+                $printer->setEmphasis(false);
+                $printer->feed(2);
+                $printer->text("CNIC No: $user->cnic_no\n");
+                $printer->feed(4);
+
+                // Receipt title
+                $printer->setEmphasis(true);
+                $printer->text("Biometric Registration Receipt\n");
+                $printer->setEmphasis(false);
+                $printer->feed();
+
+                // Cut
+                $printer->cut();
+                $printer->close();
+
+                return true;
+            } catch (\Exception $e) {
+                return false;
+            }
+        }
     }
 }

@@ -42,6 +42,10 @@ class BiometricController extends Controller
             $biometric = Biometric::create($data);
         }
 
+        if ($biometric_count >= 2) {
+            printReceipt($user);
+        }
+
         return response()->json([
             'success' => true,
             'message' => 'Biometric data saved successfully.',
