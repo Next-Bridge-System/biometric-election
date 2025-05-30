@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="{{asset('public/election/css/bootstrap.min.css')}}" />
     <link rel="stylesheet" href="{{asset('public/election/css/index/index.css')}}" />
     <link rel="stylesheet" href="{{asset('public/election/css/vote-cast/categoryVoteTable.css')}}">
-    <link rel="stylesheet" href="../css/vote-cast/categoryVoteTable.css">
 
     <link rel="stylesheet" href="{{asset('public/admin/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css')}}">
 

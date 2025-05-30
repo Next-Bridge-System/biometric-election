@@ -13,23 +13,27 @@ class VoteController extends Controller
     {
         $request->validate([
             'cnic' => 'required|string|max:15',
-            'votes' => 'nullable|array',
-            'votes.*.seat_id' => 'nullable|exists:seats,id',
+            'votes' => 'required|array',
+            'votes.*.seat_id' => 'required|exists:seats,id',
             'votes.*.candidate_id' => 'nullable|exists:candidates,id',
         ]);
 
-        $votesData = [];
-        $seatId = isset($request->votes[0]['seat_id']) ? $request->votes[0]['seat_id'] : null;
-        $seat = null;
+        $electionId = Seat::where('id', $request->votes[0]['seat_id'])->value('election_id');
+        $alreadyVoted = Vote::where('cnic', $request->cnic)
+            ->where('election_id', $electionId)
+            ->exists();
 
-        if ($seatId) {
-            $seat = Seat::where('id', $seatId)->first();
+        if ($alreadyVoted) {
+            return response()->json([
+                'message' => 'This voter has already cast their vote in this election.'
+            ], 409); // 409 Conflict
         }
 
+        $votesData = [];
         foreach ($request->votes ?? [] as $vote) {
             $votesData[] = [
                 'cnic' => $request->cnic,
-                'election_id' => $seat ? $seat->election_id : $seat,
+                'election_id' => $electionId,
                 'seat_id' => data_get($vote, 'seat_id'),
                 'candidate_id' => data_get($vote, 'candidate_id'),
                 'created_at' => now(),

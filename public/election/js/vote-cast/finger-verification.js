@@ -122,6 +122,7 @@ function succMatch(result) {
         var idQuality = 100;
         if (result.MatchingScore >= idQuality) {
             showStep(3);
+            onSuccessFingerPrintVerification();
 
             // swal.fire({
             //     title: 'Finger Verified! Matched Finger: ' + result.fingerName,

@@ -137,12 +137,16 @@
 <script>
     const votingData = @json($final_candidates);
     var savedFingerTemplates = [];
+    let current = 0;
+    let returnedVotingData;
+
+    function onSuccessFingerPrintVerification() {
+        current = 3;
+        returnedVotingData = renderCategoryVoteTable(votingData);
+    }
 
     $(document).ready(function () {
 
-        let returnedVotingData;
-
-        let current = 0;
         const steps = $('.vote-step');
 
         window.showStep = function(index) {
@@ -157,13 +161,6 @@
             }
         }
 
-        // function collectData(step) {
-        //     if (step === 0) {
-        //         formData.cnic = $('#cnic-scan').val().trim();
-        //         // focusCnicInput();
-        //     }
-        // }
-
         function focusCnicInput() {
             setTimeout(() => {
                 const $input = $('#cnic-scan');
@@ -175,11 +172,6 @@
 
         $('.next-btn').on('click', function () {
             if (!validateStep(current)) return;
-            // collectData(current);
-
-            if (current === 2) {
-                returnedVotingData = renderCategoryVoteTable(votingData);
-            }
 
             current++;
             showStep(current);
@@ -316,8 +308,13 @@
                                 location.reload();
                             }, 3000);
                         },
-                        error: function(xhr, status, error) {
-                            console.error(error);
+                        error: function(errResponse, status, error) {
+                            Swal.fire({
+                                title: 'Error',
+                                text: errResponse?.responseJSON?.message || 'Failed to submit vote. Please try again.',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
                         }
                     });
                 }
