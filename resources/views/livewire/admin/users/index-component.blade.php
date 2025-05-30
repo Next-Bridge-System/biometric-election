@@ -7,7 +7,7 @@
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        Back
+                        <li class="breadcrumb-item"><a class="btn btn-primary" href="{{route('users.create')}}">Add User</a></li>
                     </ol>
                 </div>
             </div>

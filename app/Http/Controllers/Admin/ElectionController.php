@@ -70,12 +70,15 @@ class ElectionController extends Controller
             return redirect()->back()->with('error', 'No Record Found.');
         }
 
-        $election->loadCount(['votes' => function ($query) {
+        $election->loadCount('votes');
+        $election->loadCount(['votes as vote_casted_count' => function ($query) {
             $query->whereNotNull('candidate_id');
+        }]);
+        $election->loadCount(['votes as vote_not_casted_count' => function ($query) {
+            $query->whereNull('candidate_id');
         }]);
 
         $votes = $election->votes()
-            ->whereNotNull('candidate_id')
             ->with(['seat:id,name_english,name_urdu', 'candidate:id,name_english,name_urdu'])
             ->get()
             ->groupBy('seat_id');

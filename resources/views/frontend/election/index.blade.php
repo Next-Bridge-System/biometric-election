@@ -270,8 +270,19 @@
                             $('#cnic-error').addClass('d-none');
                             formData.cnic = cnic;
                         },
-                        error: function () {
-                            alert('Failed to fetch fingerprint data.');
+                        error: function (errResponse, status, error) {
+                            Swal.fire({
+                                title: 'Error',
+                                text: errResponse?.responseJSON?.message || 'Failed to fetch fingerprint data.',
+                                icon: 'error',
+                                confirmButtonText: 'OK'
+                            });
+
+                            if (errResponse?.status === 409) {
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 3000);
+                            }
                         }
                     });
                 } else {

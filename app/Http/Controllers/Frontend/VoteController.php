@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Frontend;
 
-use App\Http\Controllers\Controller;
-use App\Seat;
 use App\Vote;
+use App\Election;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class VoteController extends Controller
 {
@@ -18,7 +18,7 @@ class VoteController extends Controller
             'votes.*.candidate_id' => 'nullable|exists:candidates,id',
         ]);
 
-        $electionId = Seat::where('id', $request->votes[0]['seat_id'])->value('election_id');
+        $electionId = Election::where('status', 1)->value('id');
         $alreadyVoted = Vote::where('cnic', $request->cnic)
             ->where('election_id', $electionId)
             ->exists();
@@ -34,7 +34,7 @@ class VoteController extends Controller
             $votesData[] = [
                 'cnic' => $request->cnic,
                 'election_id' => $electionId,
-                'seat_id' => data_get($vote, 'seat_id'),
+                'seat_id' => $vote['seat_id'],
                 'candidate_id' => data_get($vote, 'candidate_id'),
                 'created_at' => now(),
                 'updated_at' => now(),

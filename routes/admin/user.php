@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => ['permission:manage-users']], function () {
     Route::group(['prefix' => 'users'], function () {
         // Route::get('/', 'RegisterUserController@index')->name('users.index');
+        Route::get('/create', [UserController::class, 'create'])->name('users.create');
+        Route::post('/store', [UserController::class, 'store'])->name('users.store');
         Route::get('/{slug}', [UserController::class, 'index'])->name('users.index');
         Route::get('/edit/{id}', 'RegisterUserController@edit')->name('users.edit');
         Route::post('/update', 'RegisterUserController@update')->name('users.update');

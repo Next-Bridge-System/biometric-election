@@ -3,7 +3,7 @@ var templates_2 = window.savedFingerTemplates || [];
 var result_1 = "";
 var result_2 = "";
 
-const failedAttempts = 0
+let failedAttempts = 0;
 
 function SuccessFunc1(result) {
     try {
@@ -22,7 +22,9 @@ function SuccessFunc1(result) {
                 text: 'Please click the button to restart the voting process.',
                 icon: 'error',
             });
-            showStep(0);
+            setTimeout(() => {
+                location.reload();
+            }, 2000);
         }
     } catch (error) {
         console.log(error)
@@ -109,11 +111,26 @@ function matchScoreLoop(succFunction, failFunction) {
 
     if (!matched) {
 
+        failedAttempts++;
+
         swal.fire({
             title: 'NOT MATCHED!',
-            text: 'No fingerprint matched out of ' + templates_2.length,
             icon: 'error',
+            html: '<p>No fingerprint matched out of ' + templates_2.length + ' <br /> You have ' + (3 - failedAttempts) + ' attempts left.</p>',
         });
+
+        if (failedAttempts >= 3) {
+            swal.fire({
+                title: 'Failed to verify fingerprint',
+                text: 'Please try again.',
+                icon: 'error',
+            });
+            setTimeout(() => {
+                location.reload();
+            }, 2000);
+        } else {
+            CallSGIFPGetData(SuccessFunc1, ErrorFunc);
+        }
     }
 }
 
@@ -133,7 +150,26 @@ function succMatch(result) {
             // alert("MATCHED! Score: " + result.MatchingScore + ", Matched ID: " + result.fingerName);
             // document.getElementById("matched_biometric_id").value = result.matchedId;
         } else {
-            alert("NOT MATCHED! Score: " + result.MatchingScore);
+            failedAttempts++;
+
+            swal.fire({
+                title: 'NOT MATCHED!',
+                html: '<p>Score: ' + result.MatchingScore + ' <br /> You have ' + (3 - failedAttempts) + ' attempts left.</p>',
+                icon: 'error',
+            });
+
+            if (failedAttempts >= 3) {
+                swal.fire({
+                    title: 'Failed to verify fingerprint',
+                    text: 'Please try again.',
+                    icon: 'error',
+                });
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+            } else {
+                CallSGIFPGetData(SuccessFunc1, ErrorFunc);
+            }
         }
     } else {
         alert("Error Scanning Fingerprint. ErrorCode = " + result.ErrorCode);

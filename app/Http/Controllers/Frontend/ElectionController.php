@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Frontend;
 
 use App\Biometric;
 use App\Candidate;
+use App\Election;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
@@ -59,7 +60,17 @@ class ElectionController extends Controller
 
     public function fetchSavedFingerTemplates(Request $request)
     {
+
         $cleanCnic = str_replace('-', '', $request->cnic_no);
+        $election = Election::where('status', 1)->first();
+        $alreadyVoted = $election->votes()->where('cnic', $cleanCnic)->exists();
+
+        if ($alreadyVoted) {
+            return response()->json([
+                'message' => 'This voter has already cast their vote in this election.'
+            ], 409); // 409 Conflict
+        }
+
         $biometrics = Biometric::select('id', 'user_id', 'finger_id', 'finger_name', 'template_2')
             ->whereRaw('REPLACE(cnic_no, "-", "") = ?', [$cleanCnic])->get();
 
