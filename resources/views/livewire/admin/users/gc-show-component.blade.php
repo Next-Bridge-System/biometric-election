@@ -197,7 +197,7 @@
                                             @endif
                                             @endforeach
                                             <hr>
-                                            Operator: {{isset($audit->user->name) ? $audit->user->name : 'N-A'}} <br>
+                                            Admins: {{isset($audit->user->name) ? $audit->user->name : 'N-A'}} <br>
                                             Date: {{$audit->created_at->format('F d, Y | h:i A')}}
                                         </td>
                                     </tr>

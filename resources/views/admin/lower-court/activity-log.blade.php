@@ -56,7 +56,7 @@
                                                     as $activity)
 
                                                         <div class="d-block p-2">
-                                                            Operator <strong>{{ getAdminName($activity->admin_id) }}</strong> {{
+                                                            Admins <strong>{{ getAdminName($activity->admin_id) }}</strong> {{
                                             $activity->is_created ? 'added' : 'made changes' }} in <br>
                                                             @if ($activity->is_media)
                                                                 @foreach( json_decode($activity->log) as $key => $log)
@@ -98,7 +98,7 @@
                                                     as $activity)
 
                                                         <div class="d-block p-2">
-                                                            Operator <strong>{{ getAdminName($activity->admin_id) }}</strong> {{
+                                                            Admins <strong>{{ getAdminName($activity->admin_id) }}</strong> {{
                                             $activity->is_created ? 'added' : 'made changes' }} in <br>
                                                             @foreach( json_decode($activity->log) as $key => $log)
                                                                 <strong>{{ getLCKeyTitle($key) }}</strong> = {{

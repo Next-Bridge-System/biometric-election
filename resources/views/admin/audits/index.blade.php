@@ -47,7 +47,7 @@
                                     <tr class="bg-dark">
                                         <th>Sr #</th>
                                         <th>Date</th>
-                                        <th>Operator</th>
+                                        <th>Admins</th>
                                         <th>Type</th>
                                         <th>Old Values</th>
                                         <th>New Values</th>

@@ -81,13 +81,13 @@
                                     <select class="form-control custom-select" id="application_submitted_by">
                                         <option value="" selected>--Select Submitted By--</option>
                                         <option value="frontend">Online</option>
-                                        <option value="operator">Operator</option>
+                                        <option value="operator">Admins</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4 form-group">
                                     <label><strong>Admins :</strong></label>
                                     <select class="form-control custom-select" id="intimation_operator">
-                                        <option value="">--Select Operator--</option>
+                                        <option value="">--Select Admins--</option>
                                         @foreach ($operators as $operator)
                                         <option value="{{$operator->id}}">{{$operator->name}}</option>
                                         @endforeach
@@ -106,7 +106,7 @@
                                     <select class="form-control custom-select" id="payment_type">
                                         <option value="" selected>--Select Type--</option>
                                         <option value="online">Online</option>
-                                        <option value="operator">Operator</option>
+                                        <option value="operator">Admins</option>
                                     </select>
                                 </div>
                                 <div class="col-md-4 form-group">

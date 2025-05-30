@@ -14,7 +14,7 @@
                     <li class="breadcrumb-item">
                         @if (Auth::guard('admin')->user()->hasPermission('add-operators'))
                         <a href="{{route('admins.create')}}" class="btn btn-success mt-2">
-                            <i class="fas fa-plus mr-1" aria-hidden="true"></i> Add Operator
+                            <i class="fas fa-plus mr-1" aria-hidden="true"></i> Add Admins
                         </a>
                         @endif
                     </li>
@@ -41,7 +41,7 @@
                             <thead>
                                 <tr>
                                     <th>Sr.#</th>
-                                    <th>Operator Name</th>
+                                    <th>Admins Name</th>
                                     <th>Email</th>
                                     <th>Phone</th>
                                     <th>Status</th>

@@ -83,7 +83,7 @@
                                     <div class="col-md-4 form-group">
                                         <label><strong>Admins :</strong></label>
                                         <select class="form-control custom-select" id="application_operator">
-                                            <option value="">--Select Operator--</option>
+                                            <option value="">--Select Admins--</option>
                                             @foreach ($operators as $operator)
                                                 <option value="{{$operator->id}}">{{$operator->name}}</option>
                                             @endforeach

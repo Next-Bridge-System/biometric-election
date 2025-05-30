@@ -22,7 +22,7 @@
                 <!-- jquery validation -->
                 <div class="card card-success">
                     <div class="card-header">
-                        <h3 class="card-title">Add Operator</h3>
+                        <h3 class="card-title">Add Admins</h3>
                     </div>
                     <!-- /.card-header -->
                     <!-- form start -->
@@ -55,17 +55,17 @@
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6 col-sm-6 col-xs-12">
-                                        <label for="">Operator Type</label><span class="required-star">*</span><br>
+                                        <label for="">Admins Type</label><span class="required-star">*</span><br>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="is_super"
                                                 id="inlineRadio1" value="1">
-                                            <label class="form-check-label" for="inlineRadio1">Punjab Bar Operator
+                                            <label class="form-check-label" for="inlineRadio1">Punjab Bar Admins
                                                 <small>(Have access of all bars)</small></label>
                                         </div>
                                         <div class="form-check form-check-inline">
                                             <input class="form-check-input" type="radio" name="is_super"
                                                 id="inlineRadio2" value="0">
-                                            <label class="form-check-label" for="inlineRadio2">Bar Operator</label>
+                                            <label class="form-check-label" for="inlineRadio2">Bar Admins</label>
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6 col-sm-6 col-xs-12">

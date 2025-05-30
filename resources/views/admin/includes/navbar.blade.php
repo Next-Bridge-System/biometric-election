@@ -17,7 +17,7 @@
                 {{Auth::guard('admin')->user()->email}}
             </button>
             <button class="btn btn-outline-dark btn-border btn-sm mb-1"><b>Login as:</b>
-                {{Auth::guard('admin')->user()->id == 1 ? 'Super Admin' : 'Operator'}}
+                {{Auth::guard('admin')->user()->id == 1 ? 'Super Admin' : 'Admins'}}
             </button>
             <a href="{{route('admin.logout')}}" class="btn btn-outline-dark btn-border btn-sm mb-1">
                 <i class="fas fa-sign-out-alt mr-1"></i>Logout</a>

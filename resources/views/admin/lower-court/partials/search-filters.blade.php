@@ -65,7 +65,7 @@
                     <select class="form-control custom-select" id="application_submitted_by">
                         <option value="" selected>--Select Submitted By--</option>
                         <option value="frontend">Online</option>
-                        <option value="operator">Operator</option>
+                        <option value="operator">Admins</option>
                     </select>
                 </div>
                 <div class="col-md-4 form-group">
@@ -81,7 +81,7 @@
                     <select class="form-control custom-select" id="payment_type">
                         <option value="" selected>--Select Type--</option>
                         <option value="online">Online</option>
-                        <option value="operator">Operator</option>
+                        <option value="operator">Admins</option>
                     </select>
                 </div>
                 <div class="col-md-4 form-group">
