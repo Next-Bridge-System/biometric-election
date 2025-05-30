@@ -6,7 +6,7 @@
             @if (isset($application->profile_image_url))
             {{-- <img src="{{asset('storage/app/public/'.$application->profile_image_url)}}" alt="NO IMAGE FOUND"
                 style="width: 200px;height: 200px;"> --}}
-            <img src="https://portal.pbbarcouncil.com/storage/app/public/{{$application->profile_image_url}}"
+            <img src="#"
                 alt="NO IMAGE FOUND" style="width: 200px;height: 200px;">
             @else
             <img src="{{asset('public/admin/images/dummy.png')}}" alt="" style="width: 200px;height: 200px;">

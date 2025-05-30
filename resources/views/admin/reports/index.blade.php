@@ -111,7 +111,7 @@
                                     </div>
 
                                     <div class="col-md-4 form-group">
-                                        <label><strong>Operators/Managers :</strong></label>
+                                        <label><strong>Admins :</strong></label>
                                         <select class="form-control custom-select" id="application_operator" name="application_operator">
                                             <option value="">--Select Operator--</option>
                                             @foreach ($operators as $operator)

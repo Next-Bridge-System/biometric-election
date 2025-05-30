@@ -85,7 +85,7 @@
                                     </select>
                                 </div>
                                 <div class="col-md-4 form-group">
-                                    <label><strong>Operators/Managers :</strong></label>
+                                    <label><strong>Admins :</strong></label>
                                     <select class="form-control custom-select" id="intimation_operator">
                                         <option value="">--Select Operator--</option>
                                         @foreach ($operators as $operator)

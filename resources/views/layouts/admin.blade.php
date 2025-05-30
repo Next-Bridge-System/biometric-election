@@ -7,7 +7,7 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Portal - Punjab Bar Council</title>
+    <title>{{ config('app.name') }}</title>
 
     <link rel="shortcut icon" href="{{asset('public/admin/images/favicon.ico')}}" type="image/x-icon">
     <link rel="icon" href="{{asset('public/admin/images/favicon.ico')}}" type="image/x-icon">

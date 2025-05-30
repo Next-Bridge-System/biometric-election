@@ -5,7 +5,8 @@
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v4.1.1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Portal - Punjab Bar Council</title>
+    <title>{{ config('app.name') }}</title>
+
     <link rel="shortcut icon" href="{{asset('public/admin/images/favicon.ico')}}" type="image/x-icon">
     <link rel="icon" href="{{asset('public/admin/images/favicon.ico')}}" type="image/x-icon">
     <!-- Font Awesome Icons -->

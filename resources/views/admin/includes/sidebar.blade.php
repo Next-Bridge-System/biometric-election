@@ -34,7 +34,7 @@
                         class="nav-link {{(Route::currentRouteName() == 'admins.create' || Route::currentRouteName() == 'admins.index' || Route::currentRouteName() == 'admins.edit' ) ? 'active' : ''}}">
                         <i class="nav-icon fas fa-paper-plane"></i>
                         <p>
-                            Manage Operators
+                            Manage Admins
                             <i class="right fas fa-angle-left"></i>
                         </p>
                     </a>
@@ -44,7 +44,7 @@
                             <a href="{{route('admins.create')}}"
                                 class="nav-link {{(Route::currentRouteName() == 'admins.create') ? 'active' : ''}}">
                                 <i class="fas fa-caret-right nav-icon"></i>
-                                <p>Add Operator</p>
+                                <p>Add Admin</p>
                             </a>
                         </li>
                         @endif
@@ -52,7 +52,7 @@
                             <a href="{{route('admins.index')}}"
                                 class="nav-link {{(Route::currentRouteName() == 'admins.index' || Route::currentRouteName() == 'admins.edit' ) ? 'active' : ''}}">
                                 <i class="fas fa-caret-right nav-icon"></i>
-                                <p>List Operators</p>
+                                <p>List Admins</p>
                             </a>
                         </li>
                     </ul>
@@ -76,13 +76,6 @@
                                 class="nav-link {{(Route::currentRouteName() == 'users.index' && Route::current()->parameters() ['slug'] == 'all' || Route::currentRouteName() == 'users.edit' ) ? 'active' : ''}}">
                                 <i class="fas fa-caret-right nav-icon"></i>
                                 <p>List Users</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('users.index','gc')}}"
-                                class="nav-link {{(Route::currentRouteName() == 'users.index' && Route::current()->parameters() ['slug'] == 'gc' || Route::currentRouteName() == 'gc-users.show' ) ? 'active' : ''}}">
-                                <i class="fas fa-caret-right nav-icon"></i>
-                                <p>GC Users</p>
                             </a>
                         </li>
                     </ul>
@@ -112,7 +105,7 @@
                 </li>
                 @endif
 
-                @if (Auth::guard('admin')->user()->hasPermission('manage-districts'))
+                {{-- @if (Auth::guard('admin')->user()->hasPermission('manage-districts'))
                 <li
                     class="nav-item has-treeview {{(Route::currentRouteName() == 'districts.create' || Route::currentRouteName() == 'districts.index'|| Route::currentRouteName() == 'districts.edit' || Route::currentRouteName() == 'divisions.index' ) ? 'menu-open' : ''}}">
                     <a href="#"
@@ -142,42 +135,7 @@
                         </li>
                     </ul>
                 </li>
-                @endif
-
-                @if (Auth::guard('admin')->user()->hasPermission('manage-members'))
-                <li class="nav-item has-treeview {{(Route::currentRouteName() == 'members.index' ||
-                                                    Route::currentRouteName() == 'members.create' ||
-                                                    Route::currentRouteName() == 'members.show' ||
-                                                    Route::currentRouteName() == 'members.edit') ? 'menu-open' : ''}}">
-                    <a href="#"
-                        class="nav-link {{(Route::currentRouteName() == 'members.index' ||
-                                                        Route::currentRouteName() == 'members.create' ||
-                                                        Route::currentRouteName() == 'members.show' ||
-                                                        Route::currentRouteName() == 'members.edit') ? 'active' : ''}}">
-                        <i class="nav-icon fas fa-paper-plane"></i>
-                        <p>
-                            Manage Members
-                            <i class="right fas fa-angle-left"></i>
-                        </p>
-                    </a>
-                    <ul class="nav nav-treeview">
-                        <li class="nav-item">
-                            <a href="{{route('members.create')}}"
-                                class="nav-link {{(Route::currentRouteName() == 'members.create') ? 'active' : ''}}">
-                                <i class="fas fa-caret-right nav-icon"></i>
-                                <p>Add Member</p>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a href="{{route('members.index')}}"
-                                class="nav-link {{(Route::currentRouteName() == 'members.index') ? 'active' : ''}}">
-                                <i class="fas fa-caret-right nav-icon"></i>
-                                <p>Members List</p>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                @endif
+                @endif --}}
 
                 @if (Auth::guard('admin')->user()->hasPermission('manage-elections'))
                 <li class="nav-item has-treeview {{(Route::currentRouteName() == 'elections.index' ||

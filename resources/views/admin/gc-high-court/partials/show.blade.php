@@ -20,8 +20,8 @@
 
                 <td rowspan="4" colspan="2" class="text-center">
                     <label for="">Old Profile Image</label><br>
-                    <img src="https://portal.pbbarcouncil.com/storage/app/public/applications/profile-images/HC/{{$application->image}}"
-                        class="custom-image-preview" alt="no-image-found">
+                    {{-- <img src="https://portal.pbbarcouncil.com/storage/app/public/applications/profile-images/HC/{{$application->image}}"
+                        class="custom-image-preview" alt="no-image-found"> --}}
 
                         <br>
                         @if ($user != null)

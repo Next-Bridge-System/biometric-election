@@ -20,9 +20,9 @@
 
                 <td rowspan="4" class="text-center">
                     <label for="">Old Profile Image</label><br>
-                    <img
+                    {{-- <img
                         src="https://portal.pbbarcouncil.com/storage/app/public/applications/profile-images/LC/{{$application->image}}"
-                        class="custom-image-preview" alt="no-image-found">
+                        class="custom-image-preview" alt="no-image-found"> --}}
                     <br>
                     @if ($user != null)
                         @component('components.image-upload-gc')

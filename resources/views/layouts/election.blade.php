@@ -5,7 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Biometric Election Software</title>
+    <title>{{ config('app.name') }}</title>
 
     <link rel="stylesheet" href="{{asset('public/election/css/bootstrap.min.css')}}" />
     <link rel="stylesheet" href="{{asset('public/election/css/index/index.css')}}" />
