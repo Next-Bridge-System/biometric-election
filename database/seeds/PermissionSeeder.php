@@ -120,32 +120,6 @@ class PermissionSeeder extends Seeder
                 'type' => 'child',
                 'order' => 10,
             ],
-            [
-                'name' => 'GC Users',
-                'slug' => 'gc-users',
-                'type' => 'child',
-                'order' => 10,
-            ],
-            
-            // Manage Reports - 14
-            [
-                'name' => 'Manage Reports',
-                'slug' => 'manage-reports',
-                'type' => 'parent',
-                'order' => 14,
-            ],
-            [
-                'name' => 'General Report',
-                'slug' => 'general_report',
-                'type' => 'child',
-                'order' => 14,
-            ],
-            [
-                'name' => 'Export Reports',
-                'slug' => 'export-reports',
-                'type' => 'child',
-                'order' => 14,
-            ],
            
             // Manage Biometric Verification - 16
             [
