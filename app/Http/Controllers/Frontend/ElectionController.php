@@ -13,6 +13,8 @@ class ElectionController extends Controller
 {
     public function index()
     {
+        dd('index');
+        
         $candidateData = Candidate::select(
             'candidates.id as candidate_id',
             'candidates.name_english as candidate_name_eng',
