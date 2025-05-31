@@ -1817,7 +1817,6 @@ if (!function_exists('generalSearchQuery')) {
 
                 return true;
             } catch (\Exception $e) {
-                dd($e);
                 return false;
             }
         }
