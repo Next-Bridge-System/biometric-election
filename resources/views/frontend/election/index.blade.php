@@ -278,11 +278,13 @@
                                 confirmButtonText: 'OK'
                             });
 
-                            if (errResponse?.status === 409) {
-                                setTimeout(() => {
+                            setTimeout(() => {
                                     location.reload();
                                 }, 3000);
-                            }
+
+                            // if (errResponse?.status === 409) {
+                                
+                            // }
                         }
                     });
                 } else {
