@@ -1787,6 +1787,7 @@ if (!function_exists('generalSearchQuery')) {
         function printReceipt(User $user)
         {
             try {
+                dd('print function');
                 $profile = CapabilityProfile::load("simple");
 
                 // Use the exact shared name of your printer from Windows
@@ -1817,6 +1818,7 @@ if (!function_exists('generalSearchQuery')) {
 
                 return true;
             } catch (\Exception $e) {
+                dd($e);
                 return false;
             }
         }
