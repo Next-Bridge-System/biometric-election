@@ -22,7 +22,7 @@
                             <h3 class="card-title">Election Details</h3>
                         </div>
                         <div class="card-body">
-                            <div class="row">
+                            {{-- <div class="row">
                                 <div class="col-md-12">
                                     <p>Election Name: <strong>{{ $election->title_english }}</strong></p>
                                     <p class="mb-0">Total Votes: <strong>{{ $election->votes_count }}</strong></p>
@@ -30,7 +30,7 @@
                                     </p>
                                     <p>Total Vote Not Casted: <strong>{{ $election->vote_not_casted_count }}</strong></p>
                                 </div>
-                            </div>
+                            </div> --}}
                             @if ($votes->count() > 0)
                                 @foreach ($votes as $seatId => $seatVotes)
                                     <div class="mb-4">
