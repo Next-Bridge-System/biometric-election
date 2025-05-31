@@ -272,10 +272,9 @@
                         },
                         error: function (errResponse, status, error) {
                             Swal.fire({
-                                title: 'Error',
-                                text: errResponse?.responseJSON?.message || 'Failed to fetch fingerprint data.',
-                                icon: 'error',
-                                confirmButtonText: 'OK'
+                                title: 'Not Registered',
+                                text: "You are not registered in the biometric system.",
+                                icon: 'warning',
                             });
 
                             setTimeout(() => {
