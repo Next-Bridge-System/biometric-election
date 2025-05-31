@@ -1811,6 +1811,12 @@ if (!function_exists('generalSearchQuery')) {
                 $printer->setEmphasis(false);
                 $printer->feed();
 
+                $barcodeData = (string) $user->clean_cnic_no;
+                $printer->setBarcodeHeight(80);
+                $printer->setBarcodeWidth(1);
+                $printer->barcode($barcodeData, Printer::BARCODE_CODE39);
+                $printer->feed(4);
+
                 // Cut
                 $printer->cut();
                 $printer->close();
