@@ -2,7 +2,7 @@
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="#" class="brand-link" target="_blank">
-        <img src="{{asset('public/admin/images/logo.png')}}" class="w-100" alt="Admin Logo">
+        {{-- <img src="{{asset('public/admin/images/logo.png')}}" class="w-100" alt="Admin Logo"> --}}
     </a>
 
     <!-- Sidebar -->
