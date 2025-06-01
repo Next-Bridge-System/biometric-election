@@ -1,65 +1,54 @@
 function slugify(str) {
   return str.replace(/\s+/g, '-').toLowerCase();
 }
+
 function getLightColor(index) {
   const hue = (index * 47) % 360; // spread hues
   return `hsl(${hue}, 70%, 92%)`;  // light pastel tone
 }
+
 function renderCategoryVoteTable(data) {
+
+  const MAX_CANDIDATES = Math.max(...data.map(entry => entry.candidates.length));
   const table = $('#category-vote-table tbody');
   table.empty();
-  formData.votes = [];
 
-  const maxCandidates = Math.max(...data.map(entry => entry.candidates.length));
+  formData.votes = []; // reset global
 
   data.forEach((entry, rowIdx) => {
-    const { category, urdu, candidates,id } = entry;
+    const { category, urdu, candidates, id } = entry;
     const safeId = slugify(category);
     const rowColor = getLightColor(rowIdx);
-
-    // const tr = $(`<tr  style="background-color: #E8FFCF;"></tr>`);
     const tr = $(`<tr style="background-color: ${rowColor};"></tr>`);
 
+    // First: selected candidate name
+    const selectedTd = $(`<td id="selected-${safeId}-${id}" class="text-center font-weight-bold">---</td>`);
+    tr.append(selectedTd);
 
-    // Left: Selected Cell
-    tr.append(`
-      <td id="selected-${safeId}" class="text-center py-2 font-weight-bold align-middle" style="min-width: 250px; background-color: #B6E6FE; color: #0B3563;"">---</td>
-    `);
+    // Left blank padding to push candidates right
+    const blanksNeeded = MAX_CANDIDATES - candidates.length;
+    for (let i = 0; i < blanksNeeded; i++) tr.append('<td></td>');
 
-    // Middle: Candidate Wrapper inside a single <td>
-    const candidateTd = $('<td colspan="' + maxCandidates + '" style="width: 100%;"></td>');
-    const flexWrap = $(`
-      <div class="d-flex justify-content-center gap-2 w-100">
-      </div>
-    `);
-
+    // Candidates
     candidates.forEach((candidate, i) => {
-    const cell = $(`
-  <div class="selectable py-2  text-center"
-       style="flex: 1 1 0; min-width: 0; cursor: pointer;border-left: 1px solid black !important;"
-        data-row="${safeId}-${id}"
+      const td = $(`
+                    <td class="text-center selectable"
+                        data-row="${safeId}-${id}"
                         data-seat-id="${id}"
                         data-candidate-id="${candidate.id}"
                         data-category="${category}">
-  ${candidate.image}<br>
-    <div class="mt-1">${candidate.name}</div>
-  </div>
-`);
-
-      flexWrap.append(cell);
+                  </td>`);
+            td.append(`
+                      <b> ${candidate.image}</b><br>
+                      <div class="mt-1">${candidate.name}</div>
+                    `);
+            tr.append(td);
     });
 
-    candidateTd.append(flexWrap);
-    tr.append(candidateTd);
-
-    // Right: Category Name
-    tr.append(`
-      <td class=" text-white py-2 font-weight-bold text-center align-middle" style="min-width: 250px; background-color:#0B3563">
-        ${urdu}<br><small>${category}</small>
-      </td>
-    `);
-
+    // Last: category name
+    tr.append(`<td class="bg-dark text-white font-weight-bold">${urdu}<br><small>${category}</small></td>`);
     table.append(tr);
+
     formData.votes.push({
         seat_id: id,
         seat_name: category,
@@ -68,28 +57,8 @@ function renderCategoryVoteTable(data) {
     });
   });
 
-   $('#category-vote-table')
-    .off('click', '.selectable')
-    .on('click', '.selectable', function () {
-      const rowId    = $(this).data('row');
-      const category = $(this).data('category');
-      const index    = $(this).data('index');
-      const candName = $(this).find('div').text();
-
-      $(`.selectable[data-row="${rowId}"]`)
-        .removeClass('selectedCandidate');
-
-      $(this).addClass('selectedCandidate ');
-      $(`#selected-${rowId}`).text(candName);
-
-      formData.multiVotes[category] = {
-        candidateIndex: index,
-        candidateName: candName,
-        image: $(this).find('img').attr('src')
-      };
-    });
-  // Click Handler
- $('#category-vote-table')
+  // Selection handler
+  $('#category-vote-table')
     .off('click', 'td.selectable')
     .on('click', 'td.selectable', function () {
 
@@ -113,9 +82,10 @@ function renderCategoryVoteTable(data) {
       } else {
         // Clear previous selection in the row
         $(`#category-vote-table td[data-row="${rowId}"]`)
-          .removeClass('selectedCandidate');
+          .removeClass('bg-success text-white');
 
-      $(this).addClass('selectedCandidate');
+        // Highlight the current cell
+        $(this).addClass('bg-success text-white');
 
         // Update left-most display cell
         $(`#selected-${rowId}`).text(candidateName);
@@ -128,5 +98,6 @@ function renderCategoryVoteTable(data) {
         }
       }
     });
-      return data;
+
+  return data;
 }
