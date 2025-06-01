@@ -8,45 +8,53 @@
     <div id="vote-steps">
 
         <div class="vote-step" data-step="0">
-            <h4 class="mb-3 font-weight-bold">Welcome to</h4>
-            <h5 class="mb-2">Biometric Election System</h5>
+             <h1 class=" text-center font-weight-bold">Welcome to</h4>
+        <h3 class="">Biometric Election System</h3>
+          <h4>بائیو میٹرک  الیکشن سسٹم </h4>
             <img src="{{asset('public/election/assets/fingerprint.png')}}" class="my-5" alt="" style="width: 200px;">
-            <h5 class="mb-4">بائیو میٹرک الیکشن سسٹم</h5>
-            <div class="d-flex justify-content-end">
-                <button class="btn btn-green ml-auto next-btn"><i class="fa-solid fa-arrow-right"></i></button>
-            </div>
+        <div class="d-flex justify-content-end">
+                <button class="btn btn-green next-btn w-100 bigbtn">
+  Get Started | <small>شروع کریں</small>
+</button>
+        </div>
         </div>
 
         <div class="vote-step d-none" data-step="1">
-            <h5 class="mb-3 text-center">Scan Your CNIC</h5>
-            <input id="cnic-scan" type="text" class="form-control mb-3" placeholder="123412345671" value="" autocomplete="off" autofocus>
+             <h3 class="mb-3 text-center font-weight-bold">Scan your CNIC card</h3>
+        <h5>اپنا شناختی کارڈ سکین کریں </h5>
+       
+            <input id="cnic-scan" type="text" class="form-control my-5" placeholder="123412345671" value="" autocomplete="off" autofocus>
             <div id="cnic-error" class="text-danger d-none my-3">براہ کرم درست CNIC درج کریں۔</div>
             <div class="text-center mb-3">
                 <img src="{{asset('public/election/assets/QR.png')}}" alt="Scan QR" class="img-fluid"
                     style="max-width:200px;">
             </div>
             {{-- <div class="d-flex justify-content-end">
-                <button class="btn btn-green ml-auto next-btn"><i class="fa-solid fa-arrow-right"></i></button>
+         <button class="btn btn-green next-btn w-100">
+  Get Started | <small>شروع کریں</small>
+</button>
+
+
             </div> --}}
         </div>
 
         <div class="vote-step d-none" data-step="2">
-            <h4 class="mb-3 font-weight-bold">Scan your Fingerprint</h4>
+            <h3 class="mb-3 font-weight-bold">Scan your Fingerprint</h4>
             <h5 class="mb-4">اپنی بایومیٹرک تصدیق کریں</h5>
 
             <div class="d-flex justify-content-center align-items-center flex-column">
                 <img id="FPImage1" src="{{asset('public/election/assets/FingerScan.png')}}" alt="Fingerprint"
-                    style="width: 90px; margin-bottom: 1rem;">
+                    style=" margin-bottom: 1rem;">
             </div>
 
             {{-- <div class="d-flex justify-content-between mt-4">
                 <button class="btn btn-secondary back-btn"><i class="fa-solid fa-arrow-left"></i></button>
-                <button class="btn btn-green next-btn"><i class="fa-solid fa-arrow-right"></i></button>
+                <button class="btn btn-blue next-btn"><i class="fa-solid fa-arrow-right"></i></button>
             </div> --}}
         </div>
 
         <div class="vote-step d-none" data-step="3">
-            <h3 class="font-weight-bold">Voter Information</h3>
+           <h3 class="mb-3 text-center font-weight-bold">Voter Information</h3>
             <h5 class="mb-4">ووٹر کی تفصیل</h5>
 
             <div class=" p-3 rounded text-left bg-white position-relative">
@@ -66,7 +74,11 @@
                 </div>
                 <div class="d-flex justify-content-between mt-4">
                     {{-- <button class="btn btn-secondary back-btn"><i class="fa-solid fa-arrow-left"></i></button> --}}
-                    <button class="btn btn-green next-btn "><i class="fa-solid fa-arrow-right"></i></button>
+                    <button class="btn btn-green next-btn w-100 bigbtn" >
+  Next | <small>اگلا قدم</small>
+</button>
+
+                    
                 </div>
 
             </div>
@@ -74,16 +86,16 @@
 
         <!-- Step 6: Multi-Category Voting Table -->
         <div class="vote-step d-none" data-step="4">
-            <h4 class="font-weight-bold">Select Candidate Category</h4>
+           <h3 class="mb-3 text-center font-weight-bold">Select Candidate Category</h4>
             <h5 class="mb-4">امیدوار کی قسم منتخب کریں</h5>
 
             <div class="table-responsive">
-                <table class="table table-bordered text-center" id="category-vote-table">
+                <table class="table text-center" id="category-vote-table">
                     <tbody></tbody>
                 </table>
             </div>
 
-            <button class="btn btn-green mt-3 next-btn" id="submit-multi-vote">Submit <span class="ml-1">جمع
+            <button class="btn btn-blue mt-3 next-btn bigbtn" style="padding:18px;" id="submit-multi-vote">Submit | <span class="ml-1">جمع
                     کروائیں</span></button>
         </div>
 
@@ -96,7 +108,7 @@
             </table>
 
             <div class="text-center">
-                <button class="btn btn-green mt-3" id="submit-final">Submit – No Changes<br><small>تصدیق اور
+                <button class="btn btn-blue mt-3 bigbtn" id="submit-final">Submit – No Changes<br><small>تصدیق اور
                         ارسال</small></button>
             </div>
         </div> --}}
@@ -175,7 +187,12 @@
 
             current++;
             showStep(current);
-
+            if (current ===4) {
+                $('.stepper-card').css('width', '95%');
+            }
+             if (current ===5) {
+                $('.stepper-card').css('max-width','1000px');
+            }
             if (current === 1) {
                 focusCnicInput();
             }

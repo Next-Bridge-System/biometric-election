@@ -1,6 +1,6 @@
 #category-vote-table td {
   vertical-align: middle;
-  padding: 5px;
+  padding: 0px;
   cursor: pointer;
 }
 
@@ -17,4 +17,47 @@
   position: relative;
  
 }
+.candidate-cell{
+  border:2px solid #b5d1ff;          /* light border */
+  border-radius:6px;
+  transition:all .2s;
+  padding:6px 4px;
+}
+.candidate-cell:hover{
+  box-shadow:0 0 8px rgba(0,0,0,.15);
+}
+/* highlight extras for the selected cell only */
+.candidate-cell.bg-success{
+  border:3px solid #ffffff;     /* thicker green border   */
+  box-shadow:0 0 8px rgba(0,0,0,.25);
+}
+
+.candidate-cell.bg-success .cand-name{
+  font-size:1.15rem;            /* bigger text            */
+  font-weight:700;
+}
+
+.selectable img {
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+}
+
+
+#final-vote-table td{
+  padding: 5px 0;
+      vertical-align: middle;
+}
+
+
+
+.selectedCandidate{
+
+  color: white !important;
+  background-color: #28a745!important;
+
+  font-size: 1.27rem;
+
+}
+
 

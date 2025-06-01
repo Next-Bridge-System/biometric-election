@@ -5,12 +5,13 @@ html, body {
   margin: 0;
   overflow: hidden;
   background-color: #f0f5fc;
+  color: #0B3563 ;
 }
 
 /* card styling */
 .stepper-card {
 
-  max-width: 1000px;
+
    min-width: 700px;
   border-radius: 0.5rem;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
@@ -45,6 +46,7 @@ html, body {
 }
 
 /* green button */
+/* green button */
 .btn-green {
   background-color: #007f4e;
   color: #fff;
@@ -58,6 +60,24 @@ html, body {
 }
 
 
+.btn-blue {
+  background-color: #0B3563;
+  color: #fff;
+  border: none;
+
+  font-size: 1.7rem;
+}
+.btn-blue:hover {
+  background-color: #082c53;
+    color: #fff;
+}
+
+.bigbtn{
+
+  font-size: 2.75rem;
+  padding: 10px;
+  font-weight: bold;
+}
 
 /* Container for printer + receipt */
 .receipt-wrapper {
