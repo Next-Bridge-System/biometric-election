@@ -102,7 +102,7 @@ if (!function_exists('getVoucherAmount')) {
         $application = App\Application::find($id);
         $age = $application->age;
 
-        if($application->final_submitted_at){
+        if ($application->final_submitted_at) {
             $final_date = $application->final_submitted_at;
         } else {
             $final_date = $application->created_at;
@@ -1790,7 +1790,8 @@ if (!function_exists('generalSearchQuery')) {
                 $profile = CapabilityProfile::load("simple");
 
                 // Use the exact shared name of your printer from Windows
-                $connector = new WindowsPrintConnector("EPSON_TM_T88V");
+                // $connector = new WindowsPrintConnector("EPSON_TM_T88V");
+                $connector = new WindowsPrintConnector("EPSON88");
                 $printer = new Printer($connector, $profile);
 
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
@@ -1808,6 +1809,58 @@ if (!function_exists('generalSearchQuery')) {
                 // Receipt title
                 $printer->setEmphasis(true);
                 $printer->text("Biometric Registration Receipt\n");
+                $printer->setEmphasis(false);
+                $printer->feed();
+
+                $barcodeData = (string) $user->clean_cnic_no;
+                $printer->setBarcodeHeight(80);
+                $printer->setBarcodeWidth(1);
+                $printer->barcode($barcodeData, Printer::BARCODE_CODE39);
+                $printer->feed(4);
+
+                // Cut
+                $printer->cut();
+                $printer->close();
+
+                return true;
+            } catch (\Exception $e) {
+                return false;
+            }
+        }
+    }
+
+    if (!function_exists('printVoteConfirmationReceipt')) {
+        function printVoteConfirmationReceipt($user, $votes)
+        {
+            try {
+                $profile = CapabilityProfile::load("simple");
+
+                // Use the exact shared name of your printer from Windows
+                // $connector = new WindowsPrintConnector("EPSON_TM_T88V");
+                $connector = new WindowsPrintConnector("EPSON88");
+                $printer = new Printer($connector, $profile);
+
+                $printer->setJustification(Printer::JUSTIFY_CENTER);
+                $printer->setTextSize(2, 2);
+                $printer->text("Biometric Elections Software\n");
+                $printer->feed(4);
+                $printer->setTextSize(1, 1);
+                $printer->setEmphasis(true);
+                $printer->text("Token No: $user->id\n");
+                $printer->setEmphasis(false);
+                $printer->feed(2);
+                $printer->text("CNIC No: $user->cnic_no\n");
+                $printer->feed(4);
+
+                foreach ($votes as $key => $vote) {
+                    $printer->text($vote['seat_name'].':'. $vote['candidate_name']);
+                    $printer->setEmphasis(false);
+                    $printer->feed(4);
+                }
+
+                // Receipt title
+                $printer->setEmphasis(true);
+                $printer->text("Vote Confirmation Receipt\n");
                 $printer->setEmphasis(false);
                 $printer->feed();
 

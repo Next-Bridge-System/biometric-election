@@ -6,11 +6,19 @@ use App\Vote;
 use App\Election;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\User;
 
 class VoteController extends Controller
 {
     public function store(Request $request)
     {
+        // dd($request->all());
+
+        $user = User::whereRaw('REPLACE(cnic_no, "-", "") = ?', [str_replace('-', '', $request->cnic)])->first();
+        printVoteConfirmationReceipt($user, $request->votes);
+
+        dd('success');
+
         $request->validate([
             'cnic' => 'required|string|max:15',
             'votes' => 'required|array',
