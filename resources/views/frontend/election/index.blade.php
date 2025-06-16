@@ -289,7 +289,7 @@
                         },
                         error: function (errResponse, status, error) {
                             Swal.fire({
-                                title: 'Not Registered',
+                                title: 'Already Voted',
                                 text: "You have already voted.",
                                 icon: 'warning',
                             });
