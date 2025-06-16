@@ -1790,8 +1790,8 @@ if (!function_exists('generalSearchQuery')) {
                 $profile = CapabilityProfile::load("simple");
 
                 // Use the exact shared name of your printer from Windows
-                // $connector = new WindowsPrintConnector("EPSON_TM_T88V");
-                $connector = new WindowsPrintConnector("EPSON88");
+                $connector = new WindowsPrintConnector("EPSON_TM_T88V");
+                // $connector = new WindowsPrintConnector("EPSON88");
                 $printer = new Printer($connector, $profile);
 
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
@@ -1836,8 +1836,8 @@ if (!function_exists('generalSearchQuery')) {
                 $profile = CapabilityProfile::load("simple");
 
                 // Use the exact shared name of your printer from Windows
-                // $connector = new WindowsPrintConnector("EPSON_TM_T88V");
-                $connector = new WindowsPrintConnector("EPSON88");
+                $connector = new WindowsPrintConnector("EPSON_TM_T88V");
+                // $connector = new WindowsPrintConnector("EPSON88");
                 $printer = new Printer($connector, $profile);
 
                 $printer->setJustification(Printer::JUSTIFY_CENTER);
