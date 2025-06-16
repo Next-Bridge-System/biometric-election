@@ -290,7 +290,7 @@
                         error: function (errResponse, status, error) {
                             Swal.fire({
                                 title: 'Not Registered',
-                                text: "You are not registered in the biometric system.",
+                                text: "You have already voted.",
                                 icon: 'warning',
                             });
 
