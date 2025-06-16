@@ -289,8 +289,8 @@
                         },
                         error: function (errResponse, status, error) {
                             Swal.fire({
-                                title: 'Already Voted',
-                                text: "You have already voted.",
+                                title: 'Not Allowed',
+                                text: "You are not allowed to cast a vote.",
                                 icon: 'warning',
                             });
 
