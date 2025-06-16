@@ -17,8 +17,6 @@ class VoteController extends Controller
         $user = User::whereRaw('REPLACE(cnic_no, "-", "") = ?', [str_replace('-', '', $request->cnic)])->first();
         printVoteConfirmationReceipt($user, $request->votes);
 
-        dd('success');
-
         $request->validate([
             'cnic' => 'required|string|max:15',
             'votes' => 'required|array',

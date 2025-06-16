@@ -57,7 +57,5 @@ class HighCourtCommand extends Command
 
             dump($key);
         }
-
-        dd('success');
     }
 }

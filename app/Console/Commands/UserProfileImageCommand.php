@@ -72,7 +72,5 @@ class UserProfileImageCommand extends Command
             }
             \dump('user-' . $key);
         }
-
-        dd('success');
     }
 }
